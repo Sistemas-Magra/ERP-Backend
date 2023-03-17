@@ -1,4 +1,4 @@
-package com.example.magra.erp.models.entity.seguridad;
+package com.example.magra.erp.models.entity.ubicacion;
 
 import java.io.Serializable;
 
@@ -10,18 +10,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "sti_rol")
-public class Role implements Serializable {
+@Table(name="ubi_distrito")
+public class Distrito implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
-	@Column(unique = true, length = 20)
+	
+	@Column(length=50)
 	private String nombre;
-
-	@Column(length = 100, name="nombre_detallado")
-	private String nombreDetallado;
+	
+	@Column(length=10)
+	private String ubigeo;
 
 	public Integer getId() {
 		return id;
@@ -39,14 +39,16 @@ public class Role implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getNombreDetallado() {
-		return nombreDetallado;
+	public String getUbigeo() {
+		return ubigeo;
 	}
 
-	public void setNombreDetallado(String nombreDetallado) {
-		this.nombreDetallado = nombreDetallado;
+	public void setUbigeo(String ubigeo) {
+		this.ubigeo = ubigeo;
 	}
-	
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-
 }

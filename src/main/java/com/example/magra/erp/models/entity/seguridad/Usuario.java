@@ -14,15 +14,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+
+import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
+import com.example.magra.erp.models.entity.maestro.Empleado;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "seg_usuario")
+@Table(name = "sti_usuario")
 public class Usuario implements Serializable {
 
 	@Id
@@ -53,6 +59,10 @@ public class Usuario implements Serializable {
 
 	@Column(length = 15)
 	private String celular;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle tipoDocumentoIdentidad;
 
 	@Column(length = 20)
 	private String nroDocumento;
@@ -63,6 +73,14 @@ public class Usuario implements Serializable {
 
 	@Column(length = 255)
 	private String foto;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle estado;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
+	private Empleado empleado;
 
 	@JsonProperty("roles")
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -72,6 +90,16 @@ public class Usuario implements Serializable {
 	private List<Role> roles;
 	
 	private Boolean enabled;
+
+	private Integer idUsuarioCrea;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaCrea;
+
+	private Integer idUsuarioModifica;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaModifica;
 
 	public Integer getId() {
 		return id;
@@ -177,9 +205,75 @@ public class Usuario implements Serializable {
 		this.enabled = enabled;
 	}
 
-	/**
-	 * 
-	 */
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public TablaAuxiliarDetalle getTipoDocumentoIdentidad() {
+		return tipoDocumentoIdentidad;
+	}
+
+	public void setTipoDocumentoIdentidad(TablaAuxiliarDetalle tipoDocumentoIdentidad) {
+		this.tipoDocumentoIdentidad = tipoDocumentoIdentidad;
+	}
+
+	public TablaAuxiliarDetalle getEstado() {
+		return estado;
+	}
+
+	public void setEstado(TablaAuxiliarDetalle estado) {
+		this.estado = estado;
+	}
+
+	public Empleado getEmpleado() {
+		return empleado;
+	}
+
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
+	}
+
+	public Integer getIdUsuarioCrea() {
+		return idUsuarioCrea;
+	}
+
+	public void setIdUsuarioCrea(Integer idUsuarioCrea) {
+		this.idUsuarioCrea = idUsuarioCrea;
+	}
+
+	public Date getFechaCrea() {
+		return fechaCrea;
+	}
+
+	public void setFechaCrea(Date fechaCrea) {
+		this.fechaCrea = fechaCrea;
+	}
+
+	public Integer getIdUsuarioModifica() {
+		return idUsuarioModifica;
+	}
+
+	public void setIdUsuarioModifica(Integer idUsuarioModifica) {
+		this.idUsuarioModifica = idUsuarioModifica;
+	}
+
+	public Date getFechaModifica() {
+		return fechaModifica;
+	}
+
+	public void setFechaModifica(Date fechaModifica) {
+		this.fechaModifica = fechaModifica;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		this.setFechaCrea(new Date());
+	}
+
 	private static final long serialVersionUID = 1L;
 
 }

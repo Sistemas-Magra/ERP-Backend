@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 import com.example.magra.erp.VariablesGlobales;
 
 @Entity
-@Table(name = "seg_password_reset_token")
+@Table(name = "sti_password_reset_token")
 public class PasswordResetToken {
 	
 	@Id

@@ -1,4 +1,4 @@
-package com.example.magra.erp.models.entity.seguridad;
+package com.example.magra.erp.models.entity.ubicacion;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,22 +17,23 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "sti_modulo")
-public class Modulo implements Serializable {
+@Table(name="ubi_departamento")
+public class Departamento implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;		
+	private Integer id;
 	
-	@Column(length = 100)
+	@Column(length=50)
 	private String nombre;
 	
-	@Column(length = 100)
-	private String icon;
-
+	@Column(length=10)
+	private String ubigeo;
+	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "modulo_id")
-	private List<SubModulo> subModulos;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "departamento_id")
+	private List<Provincia> provincias;
 
 	public Integer getId() {
 		return id;
@@ -50,21 +51,24 @@ public class Modulo implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getIcon() {
-		return icon;
+	public String getUbigeo() {
+		return ubigeo;
 	}
 
-	public void setIcon(String icon) {
-		this.icon = icon;
+	public void setUbigeo(String ubigeo) {
+		this.ubigeo = ubigeo;
 	}
 
-	public List<SubModulo> getSubModulos() {
-		return subModulos;
+	public List<Provincia> getProvincias() {
+		return provincias;
 	}
 
-	public void setSubModulos(List<SubModulo> subModulos) {
-		this.subModulos = subModulos;
+	public void setProvincias(List<Provincia> provincias) {
+		this.provincias = provincias;
 	}
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 }

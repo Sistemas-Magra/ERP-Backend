@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "seg_menu")
+@Table(name = "sti_menu")
 public class Menu implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
