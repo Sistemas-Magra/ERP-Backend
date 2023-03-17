@@ -1,9 +1,8 @@
-package com.example.magra.erp.models.entity.maestro;
+package com.example.magra.erp.models.entity.transporte;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,27 +14,20 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
+import com.example.magra.erp.models.entity.produccion.OrdenTrabajoDiaPoste;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="mae_moneda")
-public class Moneda implements Serializable {
-	
+@Table(name="trans_formulario_poste")
+public class FormularioPoste implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length=20)
-	private String nombre;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
-	private TipoCambio tipoCambio;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle estado;
+	private OrdenTrabajoDiaPoste poste;
 
 	private Integer idUsuarioCrea;
 	
@@ -55,28 +47,12 @@ public class Moneda implements Serializable {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public OrdenTrabajoDiaPoste getPoste() {
+		return poste;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public TipoCambio getTipoCambio() {
-		return tipoCambio;
-	}
-
-	public void setTipoCambio(TipoCambio tipoCambio) {
-		this.tipoCambio = tipoCambio;
-	}
-
-	public TablaAuxiliarDetalle getEstado() {
-		return estado;
-	}
-
-	public void setEstado(TablaAuxiliarDetalle estado) {
-		this.estado = estado;
+	public void setPoste(OrdenTrabajoDiaPoste poste) {
+		this.poste = poste;
 	}
 
 	public Integer getIdUsuarioCrea() {

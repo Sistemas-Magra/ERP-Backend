@@ -1,41 +1,50 @@
-package com.example.magra.erp.models.entity.maestro;
+package com.example.magra.erp.models.entity.transporte;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
+import com.example.magra.erp.models.entity.ventas.OrdenVentaDetalle;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="mae_moneda")
-public class Moneda implements Serializable {
-	
+@Table(name="trans_formulario_detalle")
+public class FormularioDetalle implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column(length=20)
-	private String nombre;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
-	private TipoCambio tipoCambio;
+
+	@Column(precision =10, scale=2)
+	private Double cantidad;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle estado;
+	private OrdenVentaDetalle ordenVentaDetalle;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private ConfiguracionUtensilios configuracion;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "formulario_detalle_id")
+	private List<FormularioPoste> postes;
 
 	private Integer idUsuarioCrea;
 	
@@ -55,28 +64,36 @@ public class Moneda implements Serializable {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public Double getCantidad() {
+		return cantidad;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCantidad(Double cantidad) {
+		this.cantidad = cantidad;
 	}
 
-	public TipoCambio getTipoCambio() {
-		return tipoCambio;
+	public OrdenVentaDetalle getOrdenVentaDetalle() {
+		return ordenVentaDetalle;
 	}
 
-	public void setTipoCambio(TipoCambio tipoCambio) {
-		this.tipoCambio = tipoCambio;
+	public void setOrdenVentaDetalle(OrdenVentaDetalle ordenVentaDetalle) {
+		this.ordenVentaDetalle = ordenVentaDetalle;
 	}
 
-	public TablaAuxiliarDetalle getEstado() {
-		return estado;
+	public ConfiguracionUtensilios getConfiguracion() {
+		return configuracion;
 	}
 
-	public void setEstado(TablaAuxiliarDetalle estado) {
-		this.estado = estado;
+	public void setConfiguracion(ConfiguracionUtensilios configuracion) {
+		this.configuracion = configuracion;
+	}
+
+	public List<FormularioPoste> getPostes() {
+		return postes;
+	}
+
+	public void setPostes(List<FormularioPoste> postes) {
+		this.postes = postes;
 	}
 
 	public Integer getIdUsuarioCrea() {

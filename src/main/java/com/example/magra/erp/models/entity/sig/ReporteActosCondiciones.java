@@ -1,6 +1,7 @@
 package com.example.magra.erp.models.entity.sig;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
 import com.example.magra.erp.models.entity.maestro.Empleado;
@@ -57,6 +61,16 @@ public class ReporteActosCondiciones implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "reporte_id")
 	private List<ReporteCaracteristicaEncontrada> caracteristicas;
+
+	private Integer idUsuarioCrea;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaCrea;
+
+	private Integer idUsuarioModifica;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaModifica;	
 
 	public Integer getId() {
 		return id;
@@ -136,6 +150,43 @@ public class ReporteActosCondiciones implements Serializable {
 
 	public void setCaracteristicas(List<ReporteCaracteristicaEncontrada> caracteristicas) {
 		this.caracteristicas = caracteristicas;
+	}
+
+	public Integer getIdUsuarioCrea() {
+		return idUsuarioCrea;
+	}
+
+	public void setIdUsuarioCrea(Integer idUsuarioCrea) {
+		this.idUsuarioCrea = idUsuarioCrea;
+	}
+
+	public Date getFechaCrea() {
+		return fechaCrea;
+	}
+
+	public void setFechaCrea(Date fechaCrea) {
+		this.fechaCrea = fechaCrea;
+	}
+
+	public Integer getIdUsuarioModifica() {
+		return idUsuarioModifica;
+	}
+
+	public void setIdUsuarioModifica(Integer idUsuarioModifica) {
+		this.idUsuarioModifica = idUsuarioModifica;
+	}
+
+	public Date getFechaModifica() {
+		return fechaModifica;
+	}
+
+	public void setFechaModifica(Date fechaModifica) {
+		this.fechaModifica = fechaModifica;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		this.setFechaCrea(new Date());
 	}
 
 	private static final long serialVersionUID = 1L;

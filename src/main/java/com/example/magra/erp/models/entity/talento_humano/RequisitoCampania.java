@@ -23,11 +23,23 @@ public class RequisitoCampania implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private CampaniaBusquedaPersonal campania;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private RequisitoCargo requisito;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public RequisitoCargo getRequisito() {
+		return requisito;
+	}
+
+	public void setRequisito(RequisitoCargo requisito) {
+		this.requisito = requisito;
+	}
 
 	private static final long serialVersionUID = 1L;
 }

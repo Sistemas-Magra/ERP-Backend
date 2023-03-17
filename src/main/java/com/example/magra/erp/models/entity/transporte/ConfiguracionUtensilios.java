@@ -1,4 +1,4 @@
-package com.example.magra.erp.models.entity.maestro;
+package com.example.magra.erp.models.entity.transporte;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,26 +16,27 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
+import com.example.magra.erp.models.entity.maestro.ProductoVenta;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="mae_moneda")
-public class Moneda implements Serializable {
-	
+@Table(name="cfg_configuracion_utensilios")
+public class ConfiguracionUtensilios implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column(length=20)
-	private String nombre;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
-	private TipoCambio tipoCambio;
+
+	@Column(precision =5, scale=2)
+	private Double cantidad;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle estado;
+	private TablaAuxiliarDetalle unidadMedida;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private ProductoVenta producto;
 
 	private Integer idUsuarioCrea;
 	
@@ -55,28 +56,28 @@ public class Moneda implements Serializable {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public Double getCantidad() {
+		return cantidad;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCantidad(Double cantidad) {
+		this.cantidad = cantidad;
 	}
 
-	public TipoCambio getTipoCambio() {
-		return tipoCambio;
+	public TablaAuxiliarDetalle getUnidadMedida() {
+		return unidadMedida;
 	}
 
-	public void setTipoCambio(TipoCambio tipoCambio) {
-		this.tipoCambio = tipoCambio;
+	public void setUnidadMedida(TablaAuxiliarDetalle unidadMedida) {
+		this.unidadMedida = unidadMedida;
 	}
 
-	public TablaAuxiliarDetalle getEstado() {
-		return estado;
+	public ProductoVenta getProducto() {
+		return producto;
 	}
 
-	public void setEstado(TablaAuxiliarDetalle estado) {
-		this.estado = estado;
+	public void setProducto(ProductoVenta producto) {
+		this.producto = producto;
 	}
 
 	public Integer getIdUsuarioCrea() {
@@ -117,4 +118,5 @@ public class Moneda implements Serializable {
 	}
 
 	private static final long serialVersionUID = 1L;
+
 }

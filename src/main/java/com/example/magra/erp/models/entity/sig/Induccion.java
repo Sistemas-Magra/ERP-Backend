@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -134,6 +135,11 @@ public class Induccion implements Serializable {
 
 	public void setAsistentes(List<AsistenciaInduccion> asistentes) {
 		this.asistentes = asistentes;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		this.setFechaCrea(new Date());
 	}
 
 	private static final long serialVersionUID = 1L;

@@ -132,8 +132,5 @@ public class Area implements Serializable {
 		this.setFechaCrea(new Date());
 	}
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 }
