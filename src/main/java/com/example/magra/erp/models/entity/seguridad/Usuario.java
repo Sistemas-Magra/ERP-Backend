@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,6 +24,7 @@ import javax.persistence.UniqueConstraint;
 
 import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
 import com.example.magra.erp.models.entity.maestro.Empleado;
+import com.example.magra.erp.models.entity.ubicacion.Distrito;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -81,6 +83,10 @@ public class Usuario implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
 	private Empleado empleado;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
+	private Distrito distrito;
 
 	@JsonProperty("roles")
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -88,6 +94,11 @@ public class Usuario implements Serializable {
 	inverseJoinColumns = @JoinColumn(name= "seg_rol_id"),
 	uniqueConstraints = {@UniqueConstraint(columnNames = {"seg_usuario_id", "seg_rol_id"})})
 	private List<Role> roles;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "usuario_id")
+	private List<ParametroUsuario> parametros;
 	
 	private Boolean enabled;
 
