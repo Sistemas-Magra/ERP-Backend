@@ -2,6 +2,7 @@ package com.example.magra.erp.models.entity.maestro;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +19,7 @@ public class Alerta implements Serializable {
 	
 	private Integer idUsuarioDestino;
 	
+	@Column(length=4000)
 	private String mensaje;
 	
 	private Integer prioridad;	
