@@ -22,7 +22,6 @@ public interface IConfiguracionService {
 	
 	public List<TablaAuxiliar> findAll();
 	public TablaAuxiliar findByCodTablaAux(String cod);
-	public List<TablaAuxiliar> listFiltro(Integer modulo, Integer submodulo);
 	
 	public List<TablaAuxiliarDetalle> listTablaAuxiliarDetalleByCodigoAuxiliar(String codTablaAuxiliar);
 	

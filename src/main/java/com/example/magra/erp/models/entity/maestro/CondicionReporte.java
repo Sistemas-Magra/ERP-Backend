@@ -5,18 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="mae_condicion_reporte")
@@ -28,10 +23,6 @@ public class CondicionReporte implements Serializable {
 	
 	@Column(length=100)
 	private String nombre;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle estado;
 
 	private Integer idUsuarioCrea;
 	
@@ -57,14 +48,6 @@ public class CondicionReporte implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public TablaAuxiliarDetalle getEstado() {
-		return estado;
-	}
-
-	public void setEstado(TablaAuxiliarDetalle estado) {
-		this.estado = estado;
 	}
 
 	public Integer getIdUsuarioCrea() {

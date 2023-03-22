@@ -14,7 +14,6 @@ import javax.persistence.Table;
 public class ParametroUsuario  implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(length = 200)

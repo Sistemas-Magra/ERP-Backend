@@ -46,9 +46,6 @@ public class Distrito implements Serializable {
 	public void setUbigeo(String ubigeo) {
 		this.ubigeo = ubigeo;
 	}
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 }

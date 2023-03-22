@@ -23,6 +23,7 @@ import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
 import com.example.magra.erp.models.entity.gestion.Empresa;
 import com.example.magra.erp.models.entity.maestro.Cliente;
 import com.example.magra.erp.models.entity.maestro.ClienteContacto;
+import com.example.magra.erp.models.entity.maestro.Moneda;
 import com.example.magra.erp.models.entity.maestro.TipoCambio;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -85,7 +86,7 @@ public class OrdenVenta implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle tipoMoneda;
+	private Moneda tipoMoneda;
 
 	@Column(precision =10, scale=2)	
 	private Double descuentoTotal;
@@ -245,11 +246,11 @@ public class OrdenVenta implements Serializable {
 		this.saldoPago = saldoPago;
 	}
 
-	public TablaAuxiliarDetalle getTipoMoneda() {
+	public Moneda getTipoMoneda() {
 		return tipoMoneda;
 	}
 
-	public void setTipoMoneda(TablaAuxiliarDetalle tipoMoneda) {
+	public void setTipoMoneda(Moneda tipoMoneda) {
 		this.tipoMoneda = tipoMoneda;
 	}
 

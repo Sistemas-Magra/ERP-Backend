@@ -30,10 +30,10 @@ public class Planta  implements Serializable {
 	private String nombre;
 
 	@Column(length = 10)
-	private Date abreviatura;
+	private String abreviatura;
 	
 	@Column(length = 50)
-	private Date alias;
+	private String alias;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -65,19 +65,19 @@ public class Planta  implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Date getAbreviatura() {
+	public String getAbreviatura() {
 		return abreviatura;
 	}
 
-	public void setAbreviatura(Date abreviatura) {
+	public void setAbreviatura(String abreviatura) {
 		this.abreviatura = abreviatura;
 	}
 
-	public Date getAlias() {
+	public String getAlias() {
 		return alias;
 	}
 
-	public void setAlias(Date alias) {
+	public void setAlias(String alias) {
 		this.alias = alias;
 	}
 

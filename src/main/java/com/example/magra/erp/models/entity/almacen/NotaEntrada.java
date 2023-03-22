@@ -40,11 +40,6 @@ public class NotaEntrada implements Serializable {
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private Almacen almacenRecepcion;
 
-	private Integer idUsuarioCrea;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fechaCrea;
-
 	private Integer idUsuarioRecibe;
 	
 	@Column(length=400)
@@ -54,6 +49,16 @@ public class NotaEntrada implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "nota_entrada_id")
 	private List<NotaEntradaDetalle> detalle;
+
+	private Integer idUsuarioCrea;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaCrea;
+
+	private Integer idUsuarioModifica;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaModifica;
 
 	public Integer getId() {
 		return id;
@@ -125,6 +130,22 @@ public class NotaEntrada implements Serializable {
 
 	public void setDetalle(List<NotaEntradaDetalle> detalle) {
 		this.detalle = detalle;
+	}
+
+	public Integer getIdUsuarioModifica() {
+		return idUsuarioModifica;
+	}
+
+	public void setIdUsuarioModifica(Integer idUsuarioModifica) {
+		this.idUsuarioModifica = idUsuarioModifica;
+	}
+
+	public Date getFechaModifica() {
+		return fechaModifica;
+	}
+
+	public void setFechaModifica(Date fechaModifica) {
+		this.fechaModifica = fechaModifica;
 	}
 
 	@PrePersist

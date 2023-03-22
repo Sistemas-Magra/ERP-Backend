@@ -38,6 +38,9 @@ public class RequerimientoCompraDetalle implements Serializable {
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private ProductoAlmacen producto;
 	
+	@Column(length=200)
+	private String productoStr;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private TablaAuxiliarDetalle tipoRequerimiento;

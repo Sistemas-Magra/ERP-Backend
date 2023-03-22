@@ -45,13 +45,6 @@ public class ConfiguracionServiceImpl implements IConfiguracionService {
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<TablaAuxiliar> listFiltro(Integer modulo, Integer submodulo) {
-		// TODO Auto-generated method stub
-		return tablaAuxiliarDao.listFiltro(modulo, submodulo);
-	}
-	
-	@Override
-	@Transactional(readOnly=true)
 	public TablaAuxiliar findByCodTablaAux(String codTablaAuxiliar) {
 		// TODO Auto-generated method stub
 		return tablaAuxiliarDao.findByCodTablaAuxiliar(codTablaAuxiliar);

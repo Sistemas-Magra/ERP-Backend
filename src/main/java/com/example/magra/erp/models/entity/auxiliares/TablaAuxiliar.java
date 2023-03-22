@@ -11,14 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.example.magra.erp.models.entity.seguridad.SubModulo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -31,10 +29,6 @@ public class TablaAuxiliar implements Serializable {
 	private String codTablaAuxiliar;
 
 	private String nombre;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value={"subModulo", "hibernateLazyInitializer", "handler"}, allowSetters=true)		
-	private SubModulo subModulo;
 	
 	@Column(name = "ind_edicion")
 	private Boolean indEdicion;
@@ -77,14 +71,6 @@ public class TablaAuxiliar implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-	
-	public SubModulo getSubModulo() {
-		return subModulo;
-	}
-
-	public void setSubModulo(SubModulo subModulo) {
-		this.subModulo = subModulo;
 	}
 	
 	public Boolean getIndEdicion() {
