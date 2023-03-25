@@ -24,7 +24,6 @@ import javax.persistence.UniqueConstraint;
 
 import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
 import com.example.magra.erp.models.entity.maestro.Empleado;
-import com.example.magra.erp.models.entity.ubicacion.Distrito;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -57,24 +56,11 @@ public class Usuario implements Serializable {
 	private String email;
 
 	@Column(length = 15)
-	private String telefono;
-
-	@Column(length = 15)
 	private String celular;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle tipoDocumentoIdentidad;
-
-	@Column(length = 20)
-	private String nroDocumento;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_nacimiento")
 	private Date fechaNacimiento;
-
-	@Column(length = 255)
-	private String foto;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -83,10 +69,6 @@ public class Usuario implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
 	private Empleado empleado;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
-	private Distrito distrito;
 
 	@JsonProperty("roles")
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -176,28 +158,12 @@ public class Usuario implements Serializable {
 		this.celular = celular;
 	}
 
-	public String getNroDocumento() {
-		return nroDocumento;
-	}
-
-	public void setNroDocumento(String nroDocumento) {
-		this.nroDocumento = nroDocumento;
-	}
-
 	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
-	}
-
-	public String getFoto() {
-		return foto;
-	}
-
-	public void setFoto(String foto) {
-		this.foto = foto;
 	}
 
 	public List<Role> getRoles() {
@@ -214,22 +180,6 @@ public class Usuario implements Serializable {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	public String getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
-	public TablaAuxiliarDetalle getTipoDocumentoIdentidad() {
-		return tipoDocumentoIdentidad;
-	}
-
-	public void setTipoDocumentoIdentidad(TablaAuxiliarDetalle tipoDocumentoIdentidad) {
-		this.tipoDocumentoIdentidad = tipoDocumentoIdentidad;
 	}
 
 	public TablaAuxiliarDetalle getEstado() {

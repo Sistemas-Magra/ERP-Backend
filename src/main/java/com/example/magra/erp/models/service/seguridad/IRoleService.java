@@ -10,4 +10,11 @@ public interface IRoleService {
 	
 	public Role findById(Integer id);
 
+	List<Role> findByUserId(Integer userId);
+	
+	List<Role> autocompleteAsignacion(String term);
+
+	List<Integer> listadoRolesUsuarios(Integer usuarioId);
+
+	void updateRolesUsuarios(String listRoles, Integer isUsuario);
 }

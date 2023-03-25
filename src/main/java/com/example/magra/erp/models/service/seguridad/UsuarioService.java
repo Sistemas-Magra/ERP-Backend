@@ -1,6 +1,7 @@
 package com.example.magra.erp.models.service.seguridad;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -87,6 +88,27 @@ public class UsuarioService implements UserDetailsService, IUsuarioService {
 	@Transactional(readOnly = true)
 	public Usuario findUsuarioByCorreo(String correo, Integer user_id){
 		return usuarioDao.findUserByCorreo(correo, user_id);
+	}
+
+	@Override
+	public Map<String, Object> registrarUsuario(String json) {
+		return usuarioDao.registrarUsuario(json);
+	}
+
+	@Override
+	public List<Map<String, Object>> listMaestro(String nombre, String username, String correo,
+			Integer indVerInactivos) {
+		return usuarioDao.listMaestro(nombre, username, correo, indVerInactivos);
+	}
+
+	@Override
+	public void inactivarUsuario(Integer id, Integer ind) {
+		usuarioDao.inactivarUsuario(id, ind);
+	}
+
+	@Override
+	public Integer validUsuarioExistente(String username, String correo) {
+		return usuarioDao.validUsuarioExistente(username, correo);
 	}
 
 }

@@ -37,9 +37,15 @@ public class Empleado implements Serializable {
 
 	@Column(length=100)
 	private String apellidoMaterno;
+
+	@Column(length=100)
+	private String nombreCompleto;
 	
 	@Temporal(TemporalType.DATE)
 	private Date fechaIngreso;
+	
+	@Temporal(TemporalType.DATE)
+	private Date fechaNacimiento;
 	
 	@Temporal(TemporalType.DATE)
 	private Date fechaCese;	
@@ -329,6 +335,22 @@ public class Empleado implements Serializable {
 
 	public void setPuntuacion(Integer puntuacion) {
 		this.puntuacion = puntuacion;
+	}
+
+	public String getNombreCompleto() {
+		return nombreCompleto;
+	}
+
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
+
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
 	}
 
 	@PrePersist

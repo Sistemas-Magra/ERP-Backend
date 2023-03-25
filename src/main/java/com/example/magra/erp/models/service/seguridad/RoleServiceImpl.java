@@ -24,4 +24,24 @@ public class RoleServiceImpl implements IRoleService {
 		return roleDao.findById(id).orElse(null);
 	}
 
+	@Override
+	public List<Role> findByUserId(Integer userId) {
+		return roleDao.findByUserId(userId);
+	}
+
+	@Override
+	public List<Role> autocompleteAsignacion(String term) {
+		return roleDao.autocompleteAsignacion(term);
+	}
+
+	@Override
+	public List<Integer> listadoRolesUsuarios(Integer usuarioId) {
+		return roleDao.listadoRolesUsuarios(usuarioId);
+	}
+
+	@Override
+	public void updateRolesUsuarios(String listRoles, Integer isUsuario) {
+		roleDao.updateRolesUsuarios(listRoles, isUsuario);
+	}
+
 }
