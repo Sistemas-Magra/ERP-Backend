@@ -11,23 +11,12 @@ public class VariablesGlobales {
 	
 	public static final String RUTA_FRONTEND = "http://localhost:4200";
 	
-	public static final int MINUTES_EXPIRE_PASSWORD_RESET_TOKEN = 10;
+	public static final int MINUTES_EXPIRE_PASSWORD_RESET_TOKEN = 999999999;
 
 	public final static String IMAGEN_DEFAULT = "not-user.png";
 	
 	public final static String DIRECTORIO_ARCHIVOS = "C:/Proyecto";
 	
-	public final static String INVENTARIO_TOTAL_IMAGENES = DIRECTORIO_ARCHIVOS + "/inventarios/totales/imagenes";
-	
-	public final static String INVENTARIO_TOTAL_VIDEOS = DIRECTORIO_ARCHIVOS + "/inventarios/totales/videos";
-	
-	public final static String INVENTARIO_TOTAL_MUEBLES = DIRECTORIO_ARCHIVOS +  "/inventarios/muebles";
-	
-	public final static String INVENTARIO_DIARIO_IMAGENES = DIRECTORIO_ARCHIVOS + "/inventarios/ciclicos/imagenes";
-	
-	public final static String INVENTARIO_DIARIO_VIDEOS = DIRECTORIO_ARCHIVOS + "/inventarios/ciclicos/videos";
-
-	// VARIABLE GLOBAL DE PAGINADO DE MAESTROS
-	public final static int ITEMS_PER_PAGE_MAESTROS = 16;
+	public final static String EMPLEADO_FOTOS = DIRECTORIO_ARCHIVOS + "/empleados/fotos";
 
 }

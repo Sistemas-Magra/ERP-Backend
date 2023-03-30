@@ -5,42 +5,26 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
-@Table(name="mae_subarea")
-public class SubArea implements Serializable {
-	
+@Table(name="mae_hijo_empleado")
+public class HijoEmpleado implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length=20)
-	private String abreviatura;
+	@Column(length=250)
+	private String nombreCompleto;
 	
-	@Column(length=20)
-	private String abreviatura2;
-	
-	@Column(length=200)
-	private String nombre;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle estado;
-	
-	@Column(length=400)
-	private String observacion;
+	@Temporal(TemporalType.DATE)
+	private Date fechaNacimiento;
 
 	private Integer idUsuarioCrea;
 	
@@ -60,28 +44,20 @@ public class SubArea implements Serializable {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getNombreCompleto() {
+		return nombreCompleto;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
 	}
 
-	public TablaAuxiliarDetalle getEstado() {
-		return estado;
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
 	}
 
-	public void setEstado(TablaAuxiliarDetalle estado) {
-		this.estado = estado;
-	}
-
-	public String getObservacion() {
-		return observacion;
-	}
-
-	public void setObservacion(String observacion) {
-		this.observacion = observacion;
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
 	}
 
 	public Integer getIdUsuarioCrea() {
@@ -116,27 +92,11 @@ public class SubArea implements Serializable {
 		this.fechaModifica = fechaModifica;
 	}
 
-	public String getAbreviatura() {
-		return abreviatura;
-	}
-
-	public void setAbreviatura(String abreviatura) {
-		this.abreviatura = abreviatura;
-	}
-
-	public String getAbreviatura2() {
-		return abreviatura2;
-	}
-
-	public void setAbreviatura2(String abreviatura2) {
-		this.abreviatura2 = abreviatura2;
-	}
-
 	@PrePersist
 	public void prePersist() {
 		this.setFechaCrea(new Date());
 	}
-
-	private static final long serialVersionUID = 1L;
 	
+	private static final long serialVersionUID = 1L;
+
 }

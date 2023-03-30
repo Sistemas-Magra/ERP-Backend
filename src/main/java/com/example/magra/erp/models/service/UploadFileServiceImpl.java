@@ -58,6 +58,17 @@ public class UploadFileServiceImpl implements IUploadFileService{
 	}
 
 	@Override
+	public String copiarConNombre(MultipartFile archivo, String rutaBase, String nombre) throws IOException {
+		String filename = archivo.getOriginalFilename().replace(" ", "");
+		String nombreArchivoAux =  nombre + "." +FilenameUtils.getExtension(filename);
+		Path rutaArchivo = getPath(nombreArchivoAux, rutaBase);
+
+		Files.copy(archivo.getInputStream(), rutaArchivo);
+
+		return nombreArchivoAux;
+	}
+
+	@Override
 	public String copiar(MultipartFile archivo, String rutaBase) throws IOException {
 		String filename = archivo.getOriginalFilename().replace(" ", "");
 		String nombreArchivoAux =  FilenameUtils.getBaseName(filename) + "_" + UUID.randomUUID().toString() + "." +FilenameUtils.getExtension(filename);

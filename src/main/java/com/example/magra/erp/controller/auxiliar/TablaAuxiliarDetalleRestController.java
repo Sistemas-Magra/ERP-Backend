@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliar;
 import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
 import com.example.magra.erp.models.service.auxiliares.IConfiguracionService;
 
@@ -29,6 +30,11 @@ public class TablaAuxiliarDetalleRestController {
 	
 	@Autowired
 	private IConfiguracionService configuracionService;
+	
+	@GetMapping("/tablaAuxiliar/get-cod/{codAux}")
+	public TablaAuxiliar getByCodAux(@PathVariable String codAux) {
+		return configuracionService.findByCodTablaAux(codAux);
+	}
 	
 	@GetMapping("/tabla_auxiliar_detalle/nombre")
 	public ResponseEntity<?> show(

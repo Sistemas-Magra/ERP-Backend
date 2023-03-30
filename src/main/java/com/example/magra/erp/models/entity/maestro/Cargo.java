@@ -28,6 +28,9 @@ public class Cargo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(length=50)
+	private String abreviatura;
+
 	@Column(length=250)
 	private String nombre;
 	

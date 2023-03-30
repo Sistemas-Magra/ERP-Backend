@@ -2,14 +2,18 @@ package com.example.magra.erp.models.entity.maestro;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -53,6 +57,57 @@ public class Empleado implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private TablaAuxiliarDetalle motivoCese;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle estadoCivil;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle estado;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle gradoInstruccion;
+
+	@Column(length=300)
+	private String ultimoLugarEstudio;	
+
+	@Column(length=300)
+	private String lugarNacimiento;	
+	
+	private Boolean indCasaPropia;
+
+	@Column(length=3)
+	private String nroCalzado;	
+
+	@Column(length=3)
+	private String tallaPolo;	
+
+	@Column(length=3)
+	private String tallaPantalon;
+
+	@Column(length=80)
+	private String alergia;
+
+	@Column(length=80)
+	private String alergiaMedicamento;	
+
+	@Column(length=20)
+	private String telefonoEmergencia;	
+
+	@Column(length=150)
+	private String contactoEmergencia;	
+
+	@Column(length=50)
+	private String parentescoEmergencia;		
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle ladoDominante;
+
+	@Column(length=30)
+	private String nacionalidad;	
 
 	@Column(length=300)
 	private String direccion;
@@ -99,6 +154,20 @@ public class Empleado implements Serializable {
 	private Date fechaFinPrueba;
 	
 	private Integer puntuacion;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
+	private Banco bancoCts;
+	
+	@Column(length=30)
+	private String cuentaCts;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
+	private Banco bancoSueldo;
+	
+	@Column(length=30)
+	private String cuentaSueldo;
 
 	private Integer idUsuarioCrea;
 	
@@ -112,6 +181,11 @@ public class Empleado implements Serializable {
 
 	@Column(length=200)
 	private String foto;
+
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "empleado_id")
+	private List<HijoEmpleado> hijos;
 
 	public Integer getId() {
 		return id;
@@ -351,6 +425,174 @@ public class Empleado implements Serializable {
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public TablaAuxiliarDetalle getEstadoCivil() {
+		return estadoCivil;
+	}
+
+	public void setEstadoCivil(TablaAuxiliarDetalle estadoCivil) {
+		this.estadoCivil = estadoCivil;
+	}
+
+	public TablaAuxiliarDetalle getEstado() {
+		return estado;
+	}
+
+	public void setEstado(TablaAuxiliarDetalle estado) {
+		this.estado = estado;
+	}
+
+	public TablaAuxiliarDetalle getGradoInstruccion() {
+		return gradoInstruccion;
+	}
+
+	public void setGradoInstruccion(TablaAuxiliarDetalle gradoInstruccion) {
+		this.gradoInstruccion = gradoInstruccion;
+	}
+
+	public String getUltimoLugarEstudio() {
+		return ultimoLugarEstudio;
+	}
+
+	public void setUltimoLugarEstudio(String ultimoLugarEstudio) {
+		this.ultimoLugarEstudio = ultimoLugarEstudio;
+	}
+
+	public String getLugarNacimiento() {
+		return lugarNacimiento;
+	}
+
+	public void setLugarNacimiento(String lugarNacimiento) {
+		this.lugarNacimiento = lugarNacimiento;
+	}
+
+	public Boolean getIndCasaPropia() {
+		return indCasaPropia;
+	}
+
+	public void setIndCasaPropia(Boolean indCasaPropia) {
+		this.indCasaPropia = indCasaPropia;
+	}
+
+	public String getNroCalzado() {
+		return nroCalzado;
+	}
+
+	public void setNroCalzado(String nroCalzado) {
+		this.nroCalzado = nroCalzado;
+	}
+
+	public String getTallaPolo() {
+		return tallaPolo;
+	}
+
+	public void setTallaPolo(String tallaPolo) {
+		this.tallaPolo = tallaPolo;
+	}
+
+	public String getTallaPantalon() {
+		return tallaPantalon;
+	}
+
+	public void setTallaPantalon(String tallaPantalon) {
+		this.tallaPantalon = tallaPantalon;
+	}
+
+	public String getAlergia() {
+		return alergia;
+	}
+
+	public void setAlergia(String alergia) {
+		this.alergia = alergia;
+	}
+
+	public String getAlergiaMedicamento() {
+		return alergiaMedicamento;
+	}
+
+	public void setAlergiaMedicamento(String alergiaMedicamento) {
+		this.alergiaMedicamento = alergiaMedicamento;
+	}
+
+	public String getTelefonoEmergencia() {
+		return telefonoEmergencia;
+	}
+
+	public void setTelefonoEmergencia(String telefonoEmergencia) {
+		this.telefonoEmergencia = telefonoEmergencia;
+	}
+
+	public String getContactoEmergencia() {
+		return contactoEmergencia;
+	}
+
+	public void setContactoEmergencia(String contactoEmergencia) {
+		this.contactoEmergencia = contactoEmergencia;
+	}
+
+	public String getParentescoEmergencia() {
+		return parentescoEmergencia;
+	}
+
+	public void setParentescoEmergencia(String parentescoEmergencia) {
+		this.parentescoEmergencia = parentescoEmergencia;
+	}
+
+	public TablaAuxiliarDetalle getLadoDominante() {
+		return ladoDominante;
+	}
+
+	public void setLadoDominante(TablaAuxiliarDetalle ladoDominante) {
+		this.ladoDominante = ladoDominante;
+	}
+
+	public String getNacionalidad() {
+		return nacionalidad;
+	}
+
+	public void setNacionalidad(String nacionalidad) {
+		this.nacionalidad = nacionalidad;
+	}
+
+	public List<HijoEmpleado> getHijos() {
+		return hijos;
+	}
+
+	public void setHijos(List<HijoEmpleado> hijos) {
+		this.hijos = hijos;
+	}
+
+	public Banco getBancoCts() {
+		return bancoCts;
+	}
+
+	public void setBancoCts(Banco bancoCts) {
+		this.bancoCts = bancoCts;
+	}
+
+	public String getCuentaCts() {
+		return cuentaCts;
+	}
+
+	public void setCuentaCts(String cuentaCts) {
+		this.cuentaCts = cuentaCts;
+	}
+
+	public Banco getBancoSueldo() {
+		return bancoSueldo;
+	}
+
+	public void setBancoSueldo(Banco bancoSueldo) {
+		this.bancoSueldo = bancoSueldo;
+	}
+
+	public String getCuentaSueldo() {
+		return cuentaSueldo;
+	}
+
+	public void setCuentaSueldo(String cuentaSueldo) {
+		this.cuentaSueldo = cuentaSueldo;
 	}
 
 	@PrePersist

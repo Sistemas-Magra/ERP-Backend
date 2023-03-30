@@ -44,6 +44,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 		    request.setAttribute("user_email", usuario.getEmail());
 			
 		} catch (Exception e) {
+			
             request.setAttribute("user_id", 0);
             request.setAttribute("user_username", "");
             request.setAttribute("user_email", "");     
