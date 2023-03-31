@@ -1,6 +1,7 @@
 package com.example.magra.erp.models.entity.maestro;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -53,10 +54,6 @@ public class Empleado implements Serializable {
 	
 	@Temporal(TemporalType.DATE)
 	private Date fechaCese;	
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle motivoCese;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -150,8 +147,11 @@ public class Empleado implements Serializable {
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
 	private Cargo cargo;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date fechaFinPrueba;
+	
+	@Temporal(TemporalType.DATE)
+	private Date fechaInicioPrueba;
 	
 	private Integer puntuacion;
 	
@@ -181,6 +181,19 @@ public class Empleado implements Serializable {
 
 	@Column(length=200)
 	private String foto;
+
+	@Column(precision =10, scale=2)	
+	private BigDecimal sueldoPrueba;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle tipoPago;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle periocidadPago;
+	
+	private Boolean cobrarComisionAfp;
 
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -241,14 +254,6 @@ public class Empleado implements Serializable {
 
 	public void setFechaCese(Date fechaCese) {
 		this.fechaCese = fechaCese;
-	}
-
-	public TablaAuxiliarDetalle getMotivoCese() {
-		return motivoCese;
-	}
-
-	public void setMotivoCese(TablaAuxiliarDetalle motivoCese) {
-		this.motivoCese = motivoCese;
 	}
 
 	public String getDireccion() {
@@ -593,6 +598,46 @@ public class Empleado implements Serializable {
 
 	public void setCuentaSueldo(String cuentaSueldo) {
 		this.cuentaSueldo = cuentaSueldo;
+	}
+
+	public Date getFechaInicioPrueba() {
+		return fechaInicioPrueba;
+	}
+
+	public void setFechaInicioPrueba(Date fechaInicioPrueba) {
+		this.fechaInicioPrueba = fechaInicioPrueba;
+	}
+
+	public BigDecimal getSueldoPrueba() {
+		return sueldoPrueba;
+	}
+
+	public void setSueldoPrueba(BigDecimal sueldoPrueba) {
+		this.sueldoPrueba = sueldoPrueba;
+	}
+
+	public TablaAuxiliarDetalle getTipoPago() {
+		return tipoPago;
+	}
+
+	public void setTipoPago(TablaAuxiliarDetalle tipoPago) {
+		this.tipoPago = tipoPago;
+	}
+
+	public TablaAuxiliarDetalle getPeriocidadPago() {
+		return periocidadPago;
+	}
+
+	public void setPeriocidadPago(TablaAuxiliarDetalle periocidadPago) {
+		this.periocidadPago = periocidadPago;
+	}
+
+	public Boolean getCobrarComisionAfp() {
+		return cobrarComisionAfp;
+	}
+
+	public void setCobrarComisionAfp(Boolean cobrarComisionAfp) {
+		this.cobrarComisionAfp = cobrarComisionAfp;
 	}
 
 	@PrePersist

@@ -41,6 +41,8 @@ public class Contrato implements Serializable {
 	
 	@Column(length=250)
 	private String archivo;
+	
+	private Boolean indAsignacionFamiliar;
 
 	private Integer idUsuarioCrea;
 	
@@ -130,6 +132,14 @@ public class Contrato implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public Boolean getIndAsignacionFamiliar() {
+		return indAsignacionFamiliar;
+	}
+
+	public void setIndAsignacionFamiliar(Boolean indAsignacionFamiliar) {
+		this.indAsignacionFamiliar = indAsignacionFamiliar;
 	}
 
 	@PrePersist

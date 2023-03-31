@@ -27,6 +27,9 @@ public class Permiso implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(length=400)
+	private String motivo;
+	
 	@Temporal(TemporalType.DATE)
 	private Date fechaInicio;
 	
@@ -143,6 +146,14 @@ public class Permiso implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
 	}
 
 	@PrePersist

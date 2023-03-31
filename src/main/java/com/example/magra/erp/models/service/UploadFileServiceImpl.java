@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
@@ -63,7 +64,7 @@ public class UploadFileServiceImpl implements IUploadFileService{
 		String nombreArchivoAux =  nombre + "." +FilenameUtils.getExtension(filename);
 		Path rutaArchivo = getPath(nombreArchivoAux, rutaBase);
 
-		Files.copy(archivo.getInputStream(), rutaArchivo);
+		Files.copy(archivo.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
 
 		return nombreArchivoAux;
 	}
@@ -73,8 +74,9 @@ public class UploadFileServiceImpl implements IUploadFileService{
 		String filename = archivo.getOriginalFilename().replace(" ", "");
 		String nombreArchivoAux =  FilenameUtils.getBaseName(filename) + "_" + UUID.randomUUID().toString() + "." +FilenameUtils.getExtension(filename);
 		Path rutaArchivo = getPath(nombreArchivoAux, rutaBase);
+		
 
-		Files.copy(archivo.getInputStream(), rutaArchivo);
+		Files.copy(archivo.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
 
 		return nombreArchivoAux;
 	}

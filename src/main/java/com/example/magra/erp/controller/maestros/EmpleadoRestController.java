@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,11 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.magra.erp.VariablesGlobales;
+import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
 import com.example.magra.erp.models.entity.maestro.Area;
 import com.example.magra.erp.models.entity.maestro.Empleado;
+import com.example.magra.erp.models.entity.talento_humano.Cese;
+import com.example.magra.erp.models.entity.talento_humano.Contrato;
+import com.example.magra.erp.models.entity.talento_humano.Permiso;
 import com.example.magra.erp.models.service.IUploadFileService;
+import com.example.magra.erp.models.service.auxiliares.IConfiguracionService;
 import com.example.magra.erp.models.service.maestros.IAreaService;
 import com.example.magra.erp.models.service.maestros.IEmpleadoService;
+import com.example.magra.erp.models.service.maestros.IPeriodoCtsService;
+import com.example.magra.erp.models.service.maestros.IPeriodoGratificacionService;
+import com.example.magra.erp.models.service.talento_humano.ICeseService;
+import com.example.magra.erp.models.service.talento_humano.IContratoService;
+import com.example.magra.erp.models.service.talento_humano.IPermisoService;
 
 @RestController
 @RequestMapping("/api")
@@ -36,10 +45,79 @@ public class EmpleadoRestController {
 	private IEmpleadoService empleadoService;
 	
 	@Autowired
+	private ICeseService ceseService;
+	
+	@Autowired
+	private IPermisoService permisoService;
+	
+	@Autowired
+	private IContratoService contratoService;
+	
+	@Autowired
+	private IConfiguracionService auxiliarService;
+	
+	@Autowired
 	private IAreaService areaService;
 	
 	@Autowired
 	private IUploadFileService uploadFileService;
+	
+	@Autowired
+	private IPeriodoCtsService ctsService;
+	
+	@Autowired
+	private IPeriodoGratificacionService gratiService;
+	
+	@PostMapping("/empleado/registrar-contrato")
+	public ResponseEntity<?> registrarContrato(@RequestBody Contrato contrato) {
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		contratoService.save(contrato);
+		empleadoService.save(contrato.getEmpleado());
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	@GetMapping("/empleado/get-periodos-cese-activos")
+	public Map<String, Object> getPeriodosCeseActivos() {
+		Map<String, Object> response = new HashMap<>();
+		
+		response.put("cts", ctsService.getPeriodoCtsActivo());
+		response.put("grati", gratiService.getPeriodoActivo());
+		
+		return response;
+	}
+	
+	@PostMapping("/empleado/registrar-cese/{idEmpleado}")
+	public ResponseEntity<?> registrarCese(@RequestBody Cese cese, @PathVariable Integer idEmpleado) {
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		Empleado empleado = empleadoService.getById(idEmpleado);
+		
+		cese.setEmpleado(empleado);
+		
+		ceseService.save(cese);
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	@PostMapping("/empleado/registrar-permiso/{idEmpleado}")
+	public ResponseEntity<?> registrarPermisos(@RequestBody Permiso permiso, @PathVariable Integer idEmpleado) {
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		Empleado empleado = empleadoService.getById(idEmpleado);
+		TablaAuxiliarDetalle estado = auxiliarService.findTablaAuxiliarDetalleById(1, "ESTPER");
+		
+		permiso.setEmpleado(empleado);
+		permiso.setEstado(estado);
+		
+		permisoService.save(permiso);
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
 	
 	@PostMapping("/empleado/registrar-vacaciones")
 	public ResponseEntity<?> registrarVacaciones(

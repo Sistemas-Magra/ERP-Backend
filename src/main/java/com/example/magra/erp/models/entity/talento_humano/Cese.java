@@ -3,6 +3,7 @@ package com.example.magra.erp.models.entity.talento_humano;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
 import com.example.magra.erp.models.entity.maestro.Empleado;
 import com.example.magra.erp.models.entity.maestro.PeriodoCts;
 import com.example.magra.erp.models.entity.maestro.PeriodoGratificacion;
@@ -41,6 +43,13 @@ public class Cese implements Serializable {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaCese;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle tipoMotivo;
+	
+	@Column(length=400)
+	private String motivo;
 
 	private Integer idUsuarioCrea;
 	
@@ -122,6 +131,22 @@ public class Cese implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public TablaAuxiliarDetalle getTipoMotivo() {
+		return tipoMotivo;
+	}
+
+	public void setTipoMotivo(TablaAuxiliarDetalle tipoMotivo) {
+		this.tipoMotivo = tipoMotivo;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
 	}
 
 	@PrePersist

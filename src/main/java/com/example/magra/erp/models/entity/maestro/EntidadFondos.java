@@ -1,6 +1,7 @@
 package com.example.magra.erp.models.entity.maestro;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -34,13 +35,13 @@ public class EntidadFondos implements Serializable {
 	private TablaAuxiliarDetalle tipoEntidadFondos;
 	
 	@Column(precision = 20, scale = 2)
-	private Double comision;
+	private BigDecimal comisionFlujo;
 	
 	@Column(precision = 20, scale = 2)
-	private Double prima;
+	private BigDecimal prima;
 	
 	@Column(precision = 20, scale = 2)
-	private Double aporte;	
+	private BigDecimal aporte;	
 
 	private Integer idUsuarioCrea;
 	
@@ -76,27 +77,27 @@ public class EntidadFondos implements Serializable {
 		this.tipoEntidadFondos = tipoEntidadFondos;
 	}
 
-	public Double getComision() {
-		return comision;
+	public BigDecimal getComisionFlujo() {
+		return comisionFlujo;
 	}
 
-	public void setComision(Double comision) {
-		this.comision = comision;
+	public void setComisionFlujo(BigDecimal comisionFlujo) {
+		this.comisionFlujo = comisionFlujo;
 	}
 
-	public Double getPrima() {
+	public BigDecimal getPrima() {
 		return prima;
 	}
 
-	public void setPrima(Double prima) {
+	public void setPrima(BigDecimal prima) {
 		this.prima = prima;
 	}
 
-	public Double getAporte() {
+	public BigDecimal getAporte() {
 		return aporte;
 	}
 
-	public void setAporte(Double aporte) {
+	public void setAporte(BigDecimal aporte) {
 		this.aporte = aporte;
 	}
 
