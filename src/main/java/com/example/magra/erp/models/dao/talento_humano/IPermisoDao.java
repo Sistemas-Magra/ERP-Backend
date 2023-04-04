@@ -21,5 +21,8 @@ public interface IPermisoDao extends JpaRepository<Permiso, Integer> {
 			+ " JOIN sti_usuario usu ON usu.id = vac.id_usuario_crea "
 			+ " WHERE vac.empleado_id = ?1", nativeQuery=true)
 	List<Map<String, Object>> getPermisosEmpleado(Integer empleadoId);
+	
+	@Query(value="SELECT COUNT(id) FROM emp_permiso WHERE empleado_id = ?1 AND estado_id = 1", nativeQuery=true)
+	Integer getPermisosActivos(Integer empleadoId);
 
 }

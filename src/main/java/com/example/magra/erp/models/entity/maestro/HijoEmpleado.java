@@ -5,13 +5,18 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name="mae_hijo_empleado")
 public class HijoEmpleado implements Serializable {
@@ -25,6 +30,13 @@ public class HijoEmpleado implements Serializable {
 	
 	@Temporal(TemporalType.DATE)
 	private Date fechaNacimiento;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle tipoDocumentoIdentidad;
+
+	@Column(length=20)
+	private String nroDocumentoIdentidad;
 
 	private Integer idUsuarioCrea;
 	
@@ -90,6 +102,22 @@ public class HijoEmpleado implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public TablaAuxiliarDetalle getTipoDocumentoIdentidad() {
+		return tipoDocumentoIdentidad;
+	}
+
+	public void setTipoDocumentoIdentidad(TablaAuxiliarDetalle tipoDocumentoIdentidad) {
+		this.tipoDocumentoIdentidad = tipoDocumentoIdentidad;
+	}
+
+	public String getNroDocumentoIdentidad() {
+		return nroDocumentoIdentidad;
+	}
+
+	public void setNroDocumentoIdentidad(String nroDocumentoIdentidad) {
+		this.nroDocumentoIdentidad = nroDocumentoIdentidad;
 	}
 
 	@PrePersist

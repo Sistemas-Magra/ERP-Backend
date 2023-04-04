@@ -5,4 +5,5 @@ import java.util.Map;
 
 public interface IVacacionService {
 	List<Map<String, Object>> getVacacionesEmpleado(Integer empleadoId);
+	Integer getVacacionesActivas(Integer empleadoId);
 }

@@ -69,4 +69,9 @@ public class EmpleadoServiceImpl implements IEmpleadoService {
 		return empleadoDao.getListActivos(fecha, indVerInactivo);
 	}
 
+	@Override
+	public Integer getByIdentidad(Integer tipoDocumentoId, String nroDocumento) {
+		return empleadoDao.getByIdentidad(tipoDocumentoId, nroDocumento);
+	}
+
 }

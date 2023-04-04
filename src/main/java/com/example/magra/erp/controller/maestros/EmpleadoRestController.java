@@ -36,6 +36,7 @@ import com.example.magra.erp.models.service.maestros.IPeriodoGratificacionServic
 import com.example.magra.erp.models.service.talento_humano.ICeseService;
 import com.example.magra.erp.models.service.talento_humano.IContratoService;
 import com.example.magra.erp.models.service.talento_humano.IPermisoService;
+import com.example.magra.erp.models.service.talento_humano.IVacacionService;
 
 @RestController
 @RequestMapping("/api")
@@ -64,6 +65,9 @@ public class EmpleadoRestController {
 	
 	@Autowired
 	private IPeriodoCtsService ctsService;
+	
+	@Autowired
+	private IVacacionService vacaService;
 	
 	@Autowired
 	private IPeriodoGratificacionService gratiService;
@@ -108,6 +112,13 @@ public class EmpleadoRestController {
 		
 		Map<String, Object> response = new HashMap<>();
 		
+		Integer permisosActivos = vacaService.getVacacionesActivas(idEmpleado);
+		
+		if(permisosActivos != null && permisosActivos > 0) {
+			response.put("mensaje", "El personal ya tiene un permiso activo.");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CONFLICT);		
+		}
+		
 		Empleado empleado = empleadoService.getById(idEmpleado);
 		TablaAuxiliarDetalle estado = auxiliarService.findTablaAuxiliarDetalleById(1, "ESTPER");
 		
@@ -128,6 +139,13 @@ public class EmpleadoRestController {
 				@RequestParam(value="userId", required=true) Integer userId
 			) {
 		Map<String, Object> response = new HashMap<>();
+		
+		Integer vacacionesActivas = vacaService.getVacacionesActivas(empleadoId);
+		
+		if(vacacionesActivas != null && vacacionesActivas > 0) {
+			response.put("mensaje", "El personal ya tiene vacaciones activas.");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CONFLICT);		
+		}
 		
 		empleadoService.registrarVacaciones(fechaDesde, fechaHasta, empleadoId, cantidadDias, userId);
 		
@@ -192,6 +210,13 @@ public class EmpleadoRestController {
 	@PostMapping("/empleado/create")
 	public ResponseEntity<?> create(@RequestBody Empleado empleado) {
 		Map<String, Object> response = new HashMap<>();
+		
+		Integer conteoEmpleado =  empleadoService.getByIdentidad(empleado.getTipoDocumentoIdentidad().getTablaAuxiliarDetalleId().getId(), empleado.getNroDocumentoIdentidad());
+		
+		if(conteoEmpleado != null && conteoEmpleado > 0) {
+			response.put("mensaje", "Ya existe un empleado con el número de identidad y el tipo de documento de identidad ingresados.");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CONFLICT);			
+		}
 		
 		Empleado empleadoNew = empleadoService.save(empleado);
 

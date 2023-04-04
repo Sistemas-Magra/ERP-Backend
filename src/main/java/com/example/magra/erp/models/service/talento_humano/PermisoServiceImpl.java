@@ -23,6 +23,11 @@ public class PermisoServiceImpl implements IPermisoService {
 	public List<Map<String, Object>> getPermisosEmpleado(Integer empleadoId) {
 		return permisoDao.getPermisosEmpleado(empleadoId);
 	}
+
+	@Override
+	public Integer getPermisosActivos(Integer empleadoId) {
+		return permisoDao.getPermisosActivos(empleadoId);
+	}
 	
 	
 }

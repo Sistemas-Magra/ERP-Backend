@@ -8,4 +8,5 @@ import com.example.magra.erp.models.entity.talento_humano.Permiso;
 public interface IPermisoService {
 	Permiso save(Permiso permiso);
 	List<Map<String, Object>> getPermisosEmpleado(Integer empleadoId);
+	Integer getPermisosActivos(Integer empleadoId);
 }

@@ -19,4 +19,9 @@ public class VacacionServiceImpl implements IVacacionService {
 		return vacacionDao.getVacacionesEmpleado(empleadoId);
 	}
 
+	@Override
+	public Integer getVacacionesActivas(Integer empleadoId) {
+		return vacacionDao.getVacacionesActivas(empleadoId);
+	}
+
 }

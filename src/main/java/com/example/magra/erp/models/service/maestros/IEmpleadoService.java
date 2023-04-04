@@ -17,4 +17,5 @@ public interface IEmpleadoService {
 	void condicionarUsuario(Integer id, Integer estadoId);
 	void registrarVacaciones(String fechaInicio, String fechaFin, Integer empleadoId, Integer cantidadId, Integer usuarioId);
 	List<Map<String, Object>> getListActivos(String fecha, Integer indVerInactivo);
+	Integer getByIdentidad(Integer tipoDocumentoId, String nroDocumento);
 }

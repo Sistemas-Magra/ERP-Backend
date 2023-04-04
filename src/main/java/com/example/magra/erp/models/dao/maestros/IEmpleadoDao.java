@@ -32,6 +32,9 @@ public interface IEmpleadoDao extends JpaRepository<Empleado, Integer> {
 	@Query("SELECT e FROM Empleado e WHERE e.id = ?1")
 	Empleado getById(Integer id);
 	
+	@Query("SELECT COUNT(e.id) FROM Empleado e WHERE e.tipoDocumentoIdentidad.tablaAuxiliarDetalleId.id = ?1 AND e.nroDocumentoIdentidad = ?2")
+	Integer getByIdentidad(Integer tipoDocumentoId, String nroDocumento);
+	
 	@Query(value="UPDATE mae_empleado SET estado_id = ?2 WHERE id = ?1 SELECT 1", nativeQuery=true)
 	void condicionarPersonal(Integer id, Integer estadoId);
 	
