@@ -74,6 +74,8 @@ public class Empleado implements Serializable {
 	private String lugarNacimiento;	
 	
 	private Boolean indCasaPropia;
+	
+	private Boolean indEstaEnPlanilla;
 
 	@Column(length=3)
 	private String nroCalzado;	
@@ -199,6 +201,11 @@ public class Empleado implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "empleado_id")
 	private List<HijoEmpleado> hijos;
+
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "empleado_id")
+	private List<EmpleadoHorarios> horarios;
 
 	public Integer getId() {
 		return id;
@@ -638,6 +645,22 @@ public class Empleado implements Serializable {
 
 	public void setCobrarComisionAfp(Boolean cobrarComisionAfp) {
 		this.cobrarComisionAfp = cobrarComisionAfp;
+	}
+
+	public Boolean getIndEstaEnPlanilla() {
+		return indEstaEnPlanilla;
+	}
+
+	public void setIndEstaEnPlanilla(Boolean indEstaEnPlanilla) {
+		this.indEstaEnPlanilla = indEstaEnPlanilla;
+	}
+
+	public List<EmpleadoHorarios> getHorarios() {
+		return horarios;
+	}
+
+	public void setHorarios(List<EmpleadoHorarios> horarios) {
+		this.horarios = horarios;
 	}
 
 	@PrePersist

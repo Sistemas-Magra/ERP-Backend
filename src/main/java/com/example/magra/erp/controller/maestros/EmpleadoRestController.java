@@ -260,4 +260,11 @@ public class EmpleadoRestController {
 			) {
 		return empleadoService.listadoMaestro(nombreCompleto, nroDoc, fecIngDesde, fecIngHasta, indVerInac, page, size);
 	}
+	
+	@GetMapping("/empleado/get-activos")
+	public List<Map<String, Object>> getListadoActivos(
+			@RequestParam(value="fecha", required=true) String fecha,
+			@RequestParam(value="indVerActiv", required=true) Integer indVerActiv) {
+		return empleadoService.getListActivos(fecha, indVerActiv);
+	}
 }

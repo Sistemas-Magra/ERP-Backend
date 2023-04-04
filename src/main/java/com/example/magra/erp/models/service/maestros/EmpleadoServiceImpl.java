@@ -64,4 +64,9 @@ public class EmpleadoServiceImpl implements IEmpleadoService {
 		empleadoDao.registrarVacaciones(fechaInicio, fechaFin, empleadoId, cantidadId, usuarioId);
 	}
 
+	@Override
+	public List<Map<String, Object>> getListActivos(String fecha, Integer indVerInactivo) {
+		return empleadoDao.getListActivos(fecha, indVerInactivo);
+	}
+
 }

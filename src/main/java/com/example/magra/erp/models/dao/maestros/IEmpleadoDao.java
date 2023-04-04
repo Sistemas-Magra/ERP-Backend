@@ -45,4 +45,7 @@ public interface IEmpleadoDao extends JpaRepository<Empleado, Integer> {
 			+ " @cantidad_dias = ?4 , "
 			+ " @id_usuario = ?5 ", nativeQuery=true)
 	void registrarVacaciones(String fechaInicio, String fechaFin, Integer empleadoId, Integer cantidadId, Integer usuarioId);
+	
+	@Query(value="EXEC web_m002_sel_get_listado_asistencia @fecha = ?1 , @ind_ver_inactivo = ?2", nativeQuery=true)
+	List<Map<String, Object>> getListActivos(String fecha, Integer indVerInactivo);
 }

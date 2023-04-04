@@ -1,5 +1,7 @@
 package com.example.magra.erp.models.service.talento_humano;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,11 @@ public class ContratoServiceImpl implements IContratoService {
 	@Override
 	public Contrato getContratoByEmpleado(Integer empleadoId) {
 		return contratoDao.getContratoByEmpleado(empleadoId);
+	}
+
+	@Override
+	public Map<String, Object> getDatosContrato(Integer empleadoId, Integer mes, Integer anio) {
+		return contratoDao.getDatosContrato(empleadoId, mes, anio);
 	}
 
 }
