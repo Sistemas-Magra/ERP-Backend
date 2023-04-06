@@ -32,9 +32,7 @@ public class InfoAdicionalToken implements TokenEnhancer {
 		Map<String, Object> info = new HashMap<>();
 		info.put("id", usuario.getId());
 		info.put("user_name", usuario.getUsername());
-		info.put("apellido_paterno", usuario.getApellidoPaterno());
-		info.put("apellido_materno", usuario.getApellidoMaterno());
-		info.put("nombres", usuario.getNombres());
+		info.put("nombreCompleto", usuario.getNombreCompleto());
 		info.put("email", usuario.getEmail());
 		
 		List<String> roles = usuario.getRoles().stream().map(role -> role.getNombreDetallado()).collect(Collectors.toList());		

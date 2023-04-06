@@ -28,4 +28,5 @@ public interface IUsuarioService {
 	void inactivarUsuario(Integer id, Integer ind);
 	
 	Integer validUsuarioExistente(String username, String correo);
+	Map<String,Object> getDatosEmpleadoFromUsuario(Integer id);
 }

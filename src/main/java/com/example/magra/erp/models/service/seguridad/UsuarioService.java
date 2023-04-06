@@ -111,4 +111,9 @@ public class UsuarioService implements UserDetailsService, IUsuarioService {
 		return usuarioDao.validUsuarioExistente(username, correo);
 	}
 
+	@Override
+	public Map<String, Object> getDatosEmpleadoFromUsuario(Integer id) {
+		return usuarioDao.getDatosEmpleadoFromUsuario(id);
+	}
+
 }

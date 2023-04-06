@@ -36,14 +36,8 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length = 200)
-	private String nombres;
-	
-	@Column(length = 150)
-	private String apellidoPaterno;
-	
-	@Column(length = 150)
-	private String apellidoMaterno;
+	@Column(length = 300)
+	private String nombreCompleto;
 
 	@Column(unique = true, length = 20)
 	private String username;
@@ -67,7 +61,7 @@ public class Usuario implements Serializable {
 	private TablaAuxiliarDetalle estado;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private Empleado empleado;
 
 	@JsonProperty("roles")
@@ -100,30 +94,6 @@ public class Usuario implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getNombres() {
-		return nombres;
-	}
-
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
-	}
-
-	public String getApellidoPaterno() {
-		return apellidoPaterno;
-	}
-
-	public void setApellidoPaterno(String apellidoPaterno) {
-		this.apellidoPaterno = apellidoPaterno;
-	}
-
-	public String getApellidoMaterno() {
-		return apellidoMaterno;
-	}
-
-	public void setApellidoMaterno(String apellidoMaterno) {
-		this.apellidoMaterno = apellidoMaterno;
 	}
 
 	public String getUsername() {
@@ -228,6 +198,22 @@ public class Usuario implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public List<ParametroUsuario> getParametros() {
+		return parametros;
+	}
+
+	public void setParametros(List<ParametroUsuario> parametros) {
+		this.parametros = parametros;
+	}
+
+	public String getNombreCompleto() {
+		return nombreCompleto;
+	}
+
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
 	}
 
 	@PrePersist

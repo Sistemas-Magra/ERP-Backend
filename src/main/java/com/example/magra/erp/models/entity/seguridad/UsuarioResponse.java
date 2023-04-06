@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
 
+import com.example.magra.erp.models.entity.maestro.Empleado;
+
 @Projection(name="usuarioResponse", types= {Usuario.class})
 public interface UsuarioResponse {
 	Integer getId();
@@ -14,6 +16,8 @@ public interface UsuarioResponse {
 	String getUsername();
 	String getEmail();
 	String getCelular();
+	
+	Empleado getEmpleado();
 	
 	String getNroDocumento();
 	Date getFechaNacimiento();

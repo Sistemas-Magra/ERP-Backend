@@ -65,6 +65,11 @@ public class UsuarioRestController {
 	@Autowired
 	private IConfiguracionService configurationService;
 	
+	@GetMapping("/usuario/datos-empleado/{id}")
+	public Map<String, Object> getDatosEmpleado(@PathVariable Integer id) {
+		return usuarioService.getDatosEmpleadoFromUsuario(id);
+	}
+	
 	@PutMapping("/usuario/update/{id}")
 	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Map<String, Object> body) {
 		Map<String, Object> response = new HashMap<>();
@@ -372,7 +377,7 @@ public class UsuarioRestController {
 	    
 	    String content = "";
 	    
-	    content = "Hola "+user.getApellidoPaterno()+ " " + user.getApellidoMaterno() + ", " + user.getNombres() +"\n"
+	    content = "Hola "+user.getNombreCompleto()+ " \n"
 	 	    		+ "¡Felicitaciones! Su cuenta se creó exitosamente."+"\n"
 	 	    		+ "Su nombre de usuario es: "+user.getUsername()+"\n"
 	 	    		+ "Por favor de click sobre el enlace que figura a continuación para que usted genere su propia contraseña."+"\n"

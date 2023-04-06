@@ -34,20 +34,25 @@ public class ReporteActosCondiciones implements Serializable {
 	
 	private Integer idUsuarioReporta;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaOcurrencia;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
 	private Empleado empleado;
 	
+	@Column(length=200)
+	private String tipoEvento;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle tipoEvento;
+	private TablaAuxiliarDetalle estado;
 	
 	@Column(length=400)
 	private String descripcion;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle afectacion;
+	@Column(length=200)
+	private String afectacion;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -56,13 +61,15 @@ public class ReporteActosCondiciones implements Serializable {
 	@Column(length=400)
 	private String medidaMejora;
 	
+	private Boolean indCompromisoPersonal;
+	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "reporte_id")
 	private List<ReporteCondicionEncontrada> condiciones;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "reporte_id")
 	private List<ReporteCaracteristicaEncontrada> caracteristicas;
 
@@ -100,11 +107,11 @@ public class ReporteActosCondiciones implements Serializable {
 		this.empleado = empleado;
 	}
 
-	public TablaAuxiliarDetalle getTipoEvento() {
+	public String getTipoEvento() {
 		return tipoEvento;
 	}
 
-	public void setTipoEvento(TablaAuxiliarDetalle tipoEvento) {
+	public void setTipoEvento(String tipoEvento) {
 		this.tipoEvento = tipoEvento;
 	}
 
@@ -116,11 +123,11 @@ public class ReporteActosCondiciones implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public TablaAuxiliarDetalle getAfectacion() {
+	public String getAfectacion() {
 		return afectacion;
 	}
 
-	public void setAfectacion(TablaAuxiliarDetalle afectacion) {
+	public void setAfectacion(String afectacion) {
 		this.afectacion = afectacion;
 	}
 
@@ -186,6 +193,30 @@ public class ReporteActosCondiciones implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public Date getFechaOcurrencia() {
+		return fechaOcurrencia;
+	}
+
+	public void setFechaOcurrencia(Date fechaOcurrencia) {
+		this.fechaOcurrencia = fechaOcurrencia;
+	}
+
+	public TablaAuxiliarDetalle getEstado() {
+		return estado;
+	}
+
+	public void setEstado(TablaAuxiliarDetalle estado) {
+		this.estado = estado;
+	}
+
+	public Boolean getIndCompromisoPersonal() {
+		return indCompromisoPersonal;
+	}
+
+	public void setIndCompromisoPersonal(Boolean indCompromisoPersonal) {
+		this.indCompromisoPersonal = indCompromisoPersonal;
 	}
 
 	@PrePersist

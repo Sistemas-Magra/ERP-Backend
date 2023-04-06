@@ -30,4 +30,12 @@ public interface IUsuarioDao extends JpaRepository<Usuario, Integer>{
 	
 	@Query("SELECT COUNT(u.id) FROM Usuario u WHERE u.username = ?1 OR u.email = ?2")
 	Integer validUsuarioExistente(String username, String correo);
+	
+	@Query(value=""
+			+ " SELECT emp.id, emp.nombre_completo, car.nombre AS cargo "
+			+ " FROM sti_usuario usu "
+			+ " JOIN mae_empleado emp ON emp.id = usu.empleado_id "
+			+ "	JOIN mae_cargo car ON car.id = emp.cargo_id "
+			+ " WHERE usu.id = ?1", nativeQuery=true)
+	Map<String,Object> getDatosEmpleadoFromUsuario(Integer id);
 }
