@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
+import com.example.magra.erp.models.entity.gestion.Empresa;
 import com.example.magra.erp.models.entity.ubicacion.Distrito;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -199,6 +200,10 @@ public class Empleado implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
 	private Distrito distrito;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
+	private Empresa empresaRegimen;
 	
 	private Boolean cobrarComisionAfp;
 

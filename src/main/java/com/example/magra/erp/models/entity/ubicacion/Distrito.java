@@ -22,6 +22,9 @@ public class Distrito implements Serializable {
 	
 	@Column(length=10)
 	private String ubigeo;
+	
+	@Column(length=10)
+	private String ubigeoSunat;
 
 	public Integer getId() {
 		return id;
@@ -47,5 +50,13 @@ public class Distrito implements Serializable {
 		this.ubigeo = ubigeo;
 	}
 	
+	public String getUbigeoSunat() {
+		return ubigeoSunat;
+	}
+
+	public void setUbigeoSunat(String ubigeoSunat) {
+		this.ubigeoSunat = ubigeoSunat;
+	}
+
 	private static final long serialVersionUID = 1L;
 }

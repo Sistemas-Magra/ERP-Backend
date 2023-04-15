@@ -1,6 +1,7 @@
 package com.example.magra.erp.models.entity.ventas;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,6 @@ import com.example.magra.erp.models.entity.gestion.Empresa;
 import com.example.magra.erp.models.entity.maestro.Cliente;
 import com.example.magra.erp.models.entity.maestro.ClienteContacto;
 import com.example.magra.erp.models.entity.maestro.Moneda;
-import com.example.magra.erp.models.entity.maestro.TipoCambio;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -53,11 +53,11 @@ public class OrdenVenta implements Serializable {
 	private Double plazoEntrega;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
 	private Cliente cliente;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
 	private ClienteContacto contacto;
 
 	@Column(precision =10, scale=2)	
@@ -93,20 +93,24 @@ public class OrdenVenta implements Serializable {
 	
 	@Column(length=150)
 	private String referencia;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TipoCambio tipoCambio;
+
+	@Column(precision =10, scale=2)	
+	private BigDecimal tipoCambio;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "orden_venta_id")
 	private List<Pago> pagos;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "orden_venta_id")
 	private List<OrdenVentaDetalle> detalle;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "orden_venta_id")
+	private List<OrdenVentaDespacho> despacho;
 
 	private Integer idUsuarioCrea;
 	
@@ -270,11 +274,11 @@ public class OrdenVenta implements Serializable {
 		this.referencia = referencia;
 	}
 
-	public TipoCambio getTipoCambio() {
+	public BigDecimal getTipoCambio() {
 		return tipoCambio;
 	}
 
-	public void setTipoCambio(TipoCambio tipoCambio) {
+	public void setTipoCambio(BigDecimal tipoCambio) {
 		this.tipoCambio = tipoCambio;
 	}
 

@@ -18,5 +18,7 @@ public class VariablesGlobales {
 	public final static String DIRECTORIO_ARCHIVOS = "C:/Proyecto";
 	
 	public final static String EMPLEADO_FOTOS = DIRECTORIO_ARCHIVOS + "/empleados/fotos";
+	
+	public final static String API_SUNAT = "https://api.apis.net.pe/v2/";
 
 }

@@ -87,7 +87,7 @@ public class Cliente implements Serializable {
 	private Date fechaModifica;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cliente_id")
 	private List<ClienteContacto> contactos;
 	

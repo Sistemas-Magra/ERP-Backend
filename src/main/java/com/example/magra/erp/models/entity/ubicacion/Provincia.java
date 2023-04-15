@@ -30,6 +30,9 @@ public class Provincia implements Serializable {
 	@Column(length=10)
 	private String ubigeo;
 	
+	@Column(length=10)
+	private String ubigeoSunat;
+	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "provincia_id")
@@ -65,6 +68,14 @@ public class Provincia implements Serializable {
 
 	public void setDistritos(List<Distrito> distritos) {
 		this.distritos = distritos;
+	}
+
+	public String getUbigeoSunat() {
+		return ubigeoSunat;
+	}
+
+	public void setUbigeoSunat(String ubigeoSunat) {
+		this.ubigeoSunat = ubigeoSunat;
 	}
 
 	/**

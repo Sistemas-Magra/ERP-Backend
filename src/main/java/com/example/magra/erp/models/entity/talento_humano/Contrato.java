@@ -16,6 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
+import com.example.magra.erp.models.entity.gestion.Empresa;
 import com.example.magra.erp.models.entity.maestro.Empleado;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -36,6 +37,10 @@ public class Contrato implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private Empleado empleado;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private Empresa empresa;
 
 	@Column(precision =10, scale=2)
 	private Double sueldo;
@@ -153,6 +158,14 @@ public class Contrato implements Serializable {
 
 	public void setEstado(TablaAuxiliarDetalle estado) {
 		this.estado = estado;
+	}
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	@PrePersist

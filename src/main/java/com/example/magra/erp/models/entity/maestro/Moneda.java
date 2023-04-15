@@ -26,12 +26,17 @@ public class Moneda implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(length=10)
+	private String abreviatura;
+	
+	@Column(length=10)
+	private String simbolo;
+	
 	@Column(length=20)
 	private String nombre;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
-	private TipoCambio tipoCambio;
+
+	@Column(precision =10, scale=2)
+	private Double tipoCambio;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -63,11 +68,11 @@ public class Moneda implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public TipoCambio getTipoCambio() {
+	public Double getTipoCambio() {
 		return tipoCambio;
 	}
 
-	public void setTipoCambio(TipoCambio tipoCambio) {
+	public void setTipoCambio(Double tipoCambio) {
 		this.tipoCambio = tipoCambio;
 	}
 
@@ -109,6 +114,22 @@ public class Moneda implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public String getAbreviatura() {
+		return abreviatura;
+	}
+
+	public void setAbreviatura(String abreviatura) {
+		this.abreviatura = abreviatura;
+	}
+
+	public String getSimbolo() {
+		return simbolo;
+	}
+
+	public void setSimbolo(String simbolo) {
+		this.simbolo = simbolo;
 	}
 
 	@PrePersist
