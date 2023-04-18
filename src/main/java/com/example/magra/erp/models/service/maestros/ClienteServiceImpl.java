@@ -60,6 +60,10 @@ public class ClienteServiceImpl implements IClienteService {
 					
 					res.put(kvf[0].replace("\"", "").replace("\"", ""), kvf[1].replace("\"", "").replace("\"", ""));
 				}
+				if(clienteDao.getClienteByDocumentoIdentidad(nroDocumento) != null) {
+					res.put("id", clienteDao.getClienteByDocumentoIdentidad(nroDocumento).getId());
+					res.put("contactos", clienteDao.getClienteByDocumentoIdentidad(nroDocumento).getContactos());
+				}
 
 				return res;
 				
@@ -92,6 +96,11 @@ public class ClienteServiceImpl implements IClienteService {
 	@Override
 	public List<Cliente> getClientesAutocomplete(String term) {
 		return clienteDao.getClientesAutocomplete(term);
+	}
+
+	@Override
+	public Cliente save(Cliente cliente) {
+		return clienteDao.save(cliente);
 	}
 
 }

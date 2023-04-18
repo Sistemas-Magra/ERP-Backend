@@ -40,6 +40,9 @@ public class OrdenVentaDetalle implements Serializable {
 	@Column(precision =10, scale=2)	
 	private Double total;
 	
+	@Column(length=255)
+	private String plano;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private ProductoVenta producto;
@@ -140,6 +143,14 @@ public class OrdenVentaDetalle implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public String getPlano() {
+		return plano;
+	}
+
+	public void setPlano(String plano) {
+		this.plano = plano;
 	}
 
 	@PrePersist

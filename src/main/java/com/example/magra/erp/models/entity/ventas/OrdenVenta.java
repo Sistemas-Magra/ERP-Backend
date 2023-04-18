@@ -51,14 +51,6 @@ public class OrdenVenta implements Serializable {
 
 	@Column(precision =10, scale=2)	
 	private Double plazoEntrega;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
-	private Cliente cliente;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
-	private ClienteContacto contacto;
 
 	@Column(precision =10, scale=2)	
 	private Double subtotal;
@@ -68,6 +60,14 @@ public class OrdenVenta implements Serializable {
 
 	@Column(precision =10, scale=2)	
 	private Double total;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
+	private Cliente cliente;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
+	private ClienteContacto contacto;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -176,22 +176,6 @@ public class OrdenVenta implements Serializable {
 
 	public void setPlazoEntrega(Double plazoEntrega) {
 		this.plazoEntrega = plazoEntrega;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public ClienteContacto getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(ClienteContacto contacto) {
-		this.contacto = contacto;
 	}
 
 	public Double getSubtotal() {
@@ -328,6 +312,30 @@ public class OrdenVenta implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public List<OrdenVentaDespacho> getDespacho() {
+		return despacho;
+	}
+
+	public void setDespacho(List<OrdenVentaDespacho> despacho) {
+		this.despacho = despacho;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public ClienteContacto getContacto() {
+		return contacto;
+	}
+
+	public void setContacto(ClienteContacto contacto) {
+		this.contacto = contacto;
 	}
 
 	@PrePersist

@@ -1,5 +1,8 @@
 package com.example.magra.erp.models.service.ventas;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,17 @@ public class OrdenVentaServiceImpl implements IOrdenVentaService {
 	@Override
 	public OrdenVenta save(OrdenVenta ordenVenta) {
 		return ordenVentaDao.save(ordenVenta);
+	}
+
+	@Override
+	public List<Map<String, Object>> getListadoMaestro(String cliente, String fechaDesde, String fechaHasta,
+			Integer indVerAnulados) {
+		return ordenVentaDao.getListadoMaestro(cliente, fechaDesde, fechaHasta, indVerAnulados);
+	}
+
+	@Override
+	public Integer getCodigo() {
+		return ordenVentaDao.getCodigo();
 	}
 
 }

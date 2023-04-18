@@ -32,7 +32,7 @@ public class OrdenVentaDespacho implements Serializable {
     private Integer precioTotal;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "orden_venta_despacho_id")
 	private List<OrdenVentaDespachoDetalle> detalle;
 	

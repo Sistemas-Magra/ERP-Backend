@@ -10,4 +10,7 @@ import com.example.magra.erp.models.entity.maestro.Cliente;
 public interface IClienteDao extends JpaRepository<Cliente, Integer> {
 	@Query("SELECT c FROM Cliente c WHERE UPPER(c.nroDocumentoIdentidad) LIKE UPPER(CONCAT('%', ?1 , '%')) OR UPPER(c.razonSocial) LIKE UPPER(CONCAT('%', ?1 , '%'))")
 	List<Cliente> getClientesAutocomplete(String term);
+	
+	@Query("SELECT c FROM Cliente c WHERE c.nroDocumentoIdentidad = ?1")
+	Cliente getClienteByDocumentoIdentidad(String nroDoc);
 }
