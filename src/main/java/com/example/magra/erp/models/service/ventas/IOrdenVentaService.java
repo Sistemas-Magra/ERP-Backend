@@ -9,4 +9,5 @@ public interface IOrdenVentaService {
 	OrdenVenta save(OrdenVenta ordenVenta);
 	List<Map<String, Object>> getListadoMaestro(String cliente, String fechaDesde, String fechaHasta, Integer indVerAnulados);
 	Integer getCodigo();
+	OrdenVenta getById(Integer id);
 }

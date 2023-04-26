@@ -14,4 +14,7 @@ public interface IOrdenVentaDao extends JpaRepository<OrdenVenta, Integer> {
 	
 	@Query(value="SELECT COUNT(id) + 1 FROM ven_orden_venta", nativeQuery=true)
 	Integer getCodigo();
+	
+	@Query("SELECT ov FROM OrdenVenta ov WHERE ov.id = ?1")
+	OrdenVenta getById(Integer id);
 }

@@ -13,17 +13,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
+import com.example.magra.erp.models.entity.maestro.Planta;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="prod_orden_trabajo_dia")
-public class OrdenTrabajoDia implements Serializable {
+@Table(name="prod_programacion_semanal_planta")
+public class ProgramacionSemanalPlanta implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,25 +30,18 @@ public class OrdenTrabajoDia implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle dia;
-	
-	private Integer cantidad;
+	private Planta planta;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "orden_trabajo_dia_id")
-	private List<OrdenTrabajoDiaPoste> postes;
-	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "programacion_semanal_planta_id")
+	private List<ProgramacionSemanalPlantaCliente> detalleCliente;
+
 	private Integer idUsuarioCrea;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaCrea;
-
-	private Integer idUsuarioModifica;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fechaModifica;	
-
 	public Integer getId() {
 		return id;
 	}
@@ -58,28 +50,12 @@ public class OrdenTrabajoDia implements Serializable {
 		this.id = id;
 	}
 
-	public TablaAuxiliarDetalle getDia() {
-		return dia;
+	public Planta getPlanta() {
+		return planta;
 	}
 
-	public void setDia(TablaAuxiliarDetalle dia) {
-		this.dia = dia;
-	}
-
-	public Integer getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public List<OrdenTrabajoDiaPoste> getPostes() {
-		return postes;
-	}
-
-	public void setPostes(List<OrdenTrabajoDiaPoste> postes) {
-		this.postes = postes;
+	public void setPlanta(Planta planta) {
+		this.planta = planta;
 	}
 
 	public Integer getIdUsuarioCrea() {
@@ -98,25 +74,12 @@ public class OrdenTrabajoDia implements Serializable {
 		this.fechaCrea = fechaCrea;
 	}
 
-	public Integer getIdUsuarioModifica() {
-		return idUsuarioModifica;
+	public List<ProgramacionSemanalPlantaCliente> getDetalleCliente() {
+		return detalleCliente;
 	}
 
-	public void setIdUsuarioModifica(Integer idUsuarioModifica) {
-		this.idUsuarioModifica = idUsuarioModifica;
-	}
-
-	public Date getFechaModifica() {
-		return fechaModifica;
-	}
-
-	public void setFechaModifica(Date fechaModifica) {
-		this.fechaModifica = fechaModifica;
-	}
-
-	@PrePersist
-	public void prePersist() {
-		this.setFechaCrea(new Date());
+	public void setDetalleCliente(List<ProgramacionSemanalPlantaCliente> detalleCliente) {
+		this.detalleCliente = detalleCliente;
 	}
 
 	private static final long serialVersionUID = 1L;

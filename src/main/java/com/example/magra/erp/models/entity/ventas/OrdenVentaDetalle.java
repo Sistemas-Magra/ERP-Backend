@@ -43,6 +43,9 @@ public class OrdenVentaDetalle implements Serializable {
 	@Column(length=255)
 	private String plano;
 	
+	@Column(length=255)
+	private String especificacionesTecnicas;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private ProductoVenta producto;
@@ -151,6 +154,14 @@ public class OrdenVentaDetalle implements Serializable {
 
 	public void setPlano(String plano) {
 		this.plano = plano;
+	}
+
+	public String getEspecificacionesTecnicas() {
+		return especificacionesTecnicas;
+	}
+
+	public void setEspecificacionesTecnicas(String especificacionesTecnicas) {
+		this.especificacionesTecnicas = especificacionesTecnicas;
 	}
 
 	@PrePersist

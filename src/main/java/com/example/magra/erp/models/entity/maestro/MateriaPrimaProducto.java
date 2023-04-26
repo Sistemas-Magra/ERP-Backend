@@ -1,6 +1,7 @@
 package com.example.magra.erp.models.entity.maestro;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ public class MateriaPrimaProducto implements Serializable {
 	private Integer id;
 
 	@Column(precision =10, scale=2)
-	private Double cantidad;
+	private BigDecimal cantidad;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -55,11 +56,11 @@ public class MateriaPrimaProducto implements Serializable {
 		this.id = id;
 	}
 
-	public Double getCantidad() {
+	public BigDecimal getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(Double cantidad) {
+	public void setCantidad(BigDecimal cantidad) {
 		this.cantidad = cantidad;
 	}
 

@@ -1,10 +1,12 @@
 package com.example.magra.erp.models.entity.ventas;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +31,8 @@ public class OrdenVentaDespacho implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaPropuesta;
 
-    private Integer precioTotal;
+	@Column(precision =10, scale=2)	
+    private BigDecimal precioTotal;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -60,11 +63,11 @@ public class OrdenVentaDespacho implements Serializable {
 		this.detalle = detalle;
 	}
 
-	public Integer getPrecioTotal() {
+	public BigDecimal getPrecioTotal() {
 		return precioTotal;
 	}
 
-	public void setPrecioTotal(Integer precioTotal) {
+	public void setPrecioTotal(BigDecimal precioTotal) {
 		this.precioTotal = precioTotal;
 	}
 

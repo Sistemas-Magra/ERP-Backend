@@ -1,7 +1,9 @@
 package com.example.magra.erp.models.entity.ventas;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,7 +29,8 @@ public class OrdenVentaDespachoDetalle implements Serializable {
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private ProductoVenta producto;
 
-    private Integer precioTotal;
+	@Column(precision =10, scale=2)	
+    private BigDecimal precioTotal;
 	
 	public Integer getId() {
 		return id;
@@ -53,11 +56,11 @@ public class OrdenVentaDespachoDetalle implements Serializable {
 		this.producto = producto;
 	}
 
-	public Integer getPrecioTotal() {
+	public BigDecimal getPrecioTotal() {
 		return precioTotal;
 	}
 
-	public void setPrecioTotal(Integer precioTotal) {
+	public void setPrecioTotal(BigDecimal precioTotal) {
 		this.precioTotal = precioTotal;
 	}
 

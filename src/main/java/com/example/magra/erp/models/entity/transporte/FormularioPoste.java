@@ -4,18 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.example.magra.erp.models.entity.produccion.OrdenTrabajoDiaPoste;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="trans_formulario_poste")
@@ -24,10 +19,6 @@ public class FormularioPoste implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private OrdenTrabajoDiaPoste poste;
 
 	private Integer idUsuarioCrea;
 	
@@ -45,14 +36,6 @@ public class FormularioPoste implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public OrdenTrabajoDiaPoste getPoste() {
-		return poste;
-	}
-
-	public void setPoste(OrdenTrabajoDiaPoste poste) {
-		this.poste = poste;
 	}
 
 	public Integer getIdUsuarioCrea() {

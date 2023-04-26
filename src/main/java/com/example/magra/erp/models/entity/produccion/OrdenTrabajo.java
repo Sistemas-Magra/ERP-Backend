@@ -19,7 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.example.magra.erp.models.entity.ventas.OrdenVentaDetalle;
+import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
+import com.example.magra.erp.models.entity.ventas.OrdenVenta;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -33,18 +34,21 @@ public class OrdenTrabajo implements Serializable {
 	@Column(length = 15)
 	private String codigo;
 	
+	@Column(length = 200)
+	private String nombreTrabajo;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private OrdenVentaDetalle ordenVentaDetalle;
+	private OrdenVenta ordenVenta;
 	
-	private Integer cantidad;
-	
-	private Integer trabajoSemanal;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle estado;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "orden_trabajo_id")
-	private List<OrdenTrabajoDia> produccionDias;
+	private List<OrdenTrabajoDetalle> detalle;
 	
 	private Integer idUsuarioCrea;
 	
@@ -72,36 +76,20 @@ public class OrdenTrabajo implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public OrdenVentaDetalle getOrdenVentaDetalle() {
-		return ordenVentaDetalle;
+	public OrdenVenta getOrdenVenta() {
+		return ordenVenta;
 	}
 
-	public void setOrdenVentaDetalle(OrdenVentaDetalle ordenVentaDetalle) {
-		this.ordenVentaDetalle = ordenVentaDetalle;
+	public void setOrdenVenta(OrdenVenta ordenVenta) {
+		this.ordenVenta = ordenVenta;
 	}
 
-	public Integer getCantidad() {
-		return cantidad;
+	public List<OrdenTrabajoDetalle> getDetalle() {
+		return detalle;
 	}
 
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public Integer getTrabajoSemanal() {
-		return trabajoSemanal;
-	}
-
-	public void setTrabajoSemanal(Integer trabajoSemanal) {
-		this.trabajoSemanal = trabajoSemanal;
-	}
-
-	public List<OrdenTrabajoDia> getProduccionDias() {
-		return produccionDias;
-	}
-
-	public void setProduccionDias(List<OrdenTrabajoDia> produccionDias) {
-		this.produccionDias = produccionDias;
+	public void setDetalle(List<OrdenTrabajoDetalle> detalle) {
+		this.detalle = detalle;
 	}
 
 	public Integer getIdUsuarioCrea() {
@@ -134,6 +122,22 @@ public class OrdenTrabajo implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public TablaAuxiliarDetalle getEstado() {
+		return estado;
+	}
+
+	public void setEstado(TablaAuxiliarDetalle estado) {
+		this.estado = estado;
+	}
+
+	public String getNombreTrabajo() {
+		return nombreTrabajo;
+	}
+
+	public void setNombreTrabajo(String nombreTrabajo) {
+		this.nombreTrabajo = nombreTrabajo;
 	}
 
 	@PrePersist

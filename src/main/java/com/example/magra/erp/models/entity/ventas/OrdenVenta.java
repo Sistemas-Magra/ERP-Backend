@@ -38,6 +38,9 @@ public class OrdenVenta implements Serializable {
 	@Column(length=15)
 	private String codigo;
 	
+	@Column(length = 200)
+	private String nombreTrabajo;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private Empresa empresaPartida;
@@ -336,6 +339,14 @@ public class OrdenVenta implements Serializable {
 
 	public void setContacto(ClienteContacto contacto) {
 		this.contacto = contacto;
+	}
+
+	public String getNombreTrabajo() {
+		return nombreTrabajo;
+	}
+
+	public void setNombreTrabajo(String nombreTrabajo) {
+		this.nombreTrabajo = nombreTrabajo;
 	}
 
 	@PrePersist

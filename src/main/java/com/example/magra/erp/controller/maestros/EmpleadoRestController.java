@@ -266,7 +266,7 @@ public class EmpleadoRestController {
 		
 		String formato = "%0" + (10 - cantidadCeros) + "d";
 		
-		String nroCod = String.format(formato, this.empleadoService.cantidadCod(codigo) + 1);
+		String nroCod = String.format(formato, empleadoService.cantidadCod(codigo) + 1);
 		
 		response.put("codigo", codigo+nroCod);
 		
