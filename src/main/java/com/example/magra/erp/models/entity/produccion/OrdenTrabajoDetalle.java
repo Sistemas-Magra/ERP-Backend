@@ -29,6 +29,12 @@ public class OrdenTrabajoDetalle implements Serializable {
 	
 	private Integer cantidadPendiente;
 	
+	private Integer cantidadAceptada;
+	
+	private Integer cantidadRechazada;
+	
+	private Integer cantidadDespachada;
+	
 	private Integer cantidadProgramadaSemanal;
 
 	public Integer getId() {
@@ -61,6 +67,30 @@ public class OrdenTrabajoDetalle implements Serializable {
 
 	public void setCantidadPendiente(Integer cantidadPendiente) {
 		this.cantidadPendiente = cantidadPendiente;
+	}
+
+	public Integer getCantidadAceptada() {
+		return cantidadAceptada;
+	}
+
+	public void setCantidadAceptada(Integer cantidadAceptada) {
+		this.cantidadAceptada = cantidadAceptada;
+	}
+
+	public Integer getCantidadRechazada() {
+		return cantidadRechazada;
+	}
+
+	public void setCantidadRechazada(Integer cantidadRechazada) {
+		this.cantidadRechazada = cantidadRechazada;
+	}
+
+	public Integer getCantidadDespachada() {
+		return cantidadDespachada;
+	}
+
+	public void setCantidadDespachada(Integer cantidadDespachada) {
+		this.cantidadDespachada = cantidadDespachada;
 	}
 
 	public Integer getCantidadProgramadaSemanal() {

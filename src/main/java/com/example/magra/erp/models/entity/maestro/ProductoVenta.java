@@ -32,6 +32,9 @@ public class ProductoVenta  implements Serializable {
 	
 	@Column(length=20)
 	private String codigo;
+	
+	@Column(length=100)
+	private String nombre;
 
 	@Column(precision =5, scale=2)
 	private Double longitud;
@@ -172,6 +175,22 @@ public class ProductoVenta  implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public List<MateriaPrimaProducto> getInsumos() {
+		return insumos;
+	}
+
+	public void setInsumos(List<MateriaPrimaProducto> insumos) {
+		this.insumos = insumos;
 	}
 
 	@PrePersist

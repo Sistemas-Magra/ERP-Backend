@@ -111,6 +111,9 @@ public class OrdenVentaRestController {
 				
 				otd.setCantidadPendiente(ovd.getCantidad());
 				otd.setCantidadProducida(0);
+				otd.setCantidadAceptada(0);
+				otd.setCantidadRechazada(0);
+				otd.setCantidadDespachada(0);
 				otd.setOrdenVentaDetalle(ovd);
 				
 				otdList.add(otd);

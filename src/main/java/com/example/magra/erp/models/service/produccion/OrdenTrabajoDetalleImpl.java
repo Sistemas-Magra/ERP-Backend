@@ -9,4 +9,9 @@ import com.example.magra.erp.models.dao.produccion.IOrdenTrabajoDetalleDao;
 public class OrdenTrabajoDetalleImpl implements IOrdenTrabajoDetalleService {
 	@Autowired
 	private IOrdenTrabajoDetalleDao ordenTrabajoDetaleDao;
+
+	@Override
+	public void updateAvance(Integer otdId) {
+		ordenTrabajoDetaleDao.updateAvance(otdId);
+	}
 }
