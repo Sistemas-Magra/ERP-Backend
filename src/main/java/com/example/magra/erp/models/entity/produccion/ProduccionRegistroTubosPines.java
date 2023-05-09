@@ -16,7 +16,7 @@ import com.example.magra.erp.models.entity.auxiliares.TablaAuxiliarDetalle;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="prod_produccion_registro_tubos_pines")
+@Table(name="prod_produccion_poste_registro_tubos_pines")
 public class ProduccionRegistroTubosPines implements Serializable {
 
 	@Id

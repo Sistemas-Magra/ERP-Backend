@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="prod_produccion_registro_mezcla")
+@Table(name="prod_produccion_poste_registro_mezcla")
 public class ProduccionRegistroMezcla implements Serializable {
 
 	@Id
