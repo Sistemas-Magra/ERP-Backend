@@ -1,6 +1,7 @@
 package com.example.magra.erp.models.entity.ventas;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -31,12 +32,17 @@ public class Pago implements Serializable {
 	private TablaAuxiliarDetalle tipoPago;
 
 	@Column(precision =10, scale=2)	
-	private Double monto;
+	private BigDecimal monto;
 
 	@Column(precision =10, scale=2)	
-	private Double diferenciaTotal;
+	private BigDecimal diferenciaTotal;
+	
+	private Boolean indEsAdelanto;
 
 	private Integer idUsuarioCrea;
+	
+	@Column(length=150)
+	private String nombreUsuarioCrea;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaCrea;
@@ -62,20 +68,28 @@ public class Pago implements Serializable {
 		this.tipoPago = tipoPago;
 	}
 
-	public Double getMonto() {
+	public BigDecimal getMonto() {
 		return monto;
 	}
 
-	public void setMonto(Double monto) {
+	public void setMonto(BigDecimal monto) {
 		this.monto = monto;
 	}
 
-	public Double getDiferenciaTotal() {
+	public BigDecimal getDiferenciaTotal() {
 		return diferenciaTotal;
 	}
 
-	public void setDiferenciaTotal(Double diferenciaTotal) {
+	public void setDiferenciaTotal(BigDecimal diferenciaTotal) {
 		this.diferenciaTotal = diferenciaTotal;
+	}
+
+	public Boolean getIndEsAdelanto() {
+		return indEsAdelanto;
+	}
+
+	public void setIndEsAdelanto(Boolean indEsAdelanto) {
+		this.indEsAdelanto = indEsAdelanto;
 	}
 
 	public Integer getIdUsuarioCrea() {
@@ -84,6 +98,14 @@ public class Pago implements Serializable {
 
 	public void setIdUsuarioCrea(Integer idUsuarioCrea) {
 		this.idUsuarioCrea = idUsuarioCrea;
+	}
+
+	public String getNombreUsuarioCrea() {
+		return nombreUsuarioCrea;
+	}
+
+	public void setNombreUsuarioCrea(String nombreUsuarioCrea) {
+		this.nombreUsuarioCrea = nombreUsuarioCrea;
 	}
 
 	public Date getFechaCrea() {

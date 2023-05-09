@@ -15,5 +15,15 @@ public class ProduccionPlantaServiceImpl implements IProduccionPlantaService {
 	public ProduccionPlanta save(ProduccionPlanta produccionPlanta) {
 		return produccionPlantaDao.save(produccionPlanta);
 	}
+
+	@Override
+	public Integer getIdByProduccionAndPlanta(Integer plantaId, Integer prodId) {
+		return produccionPlantaDao.getIdByProduccionAndPlanta(plantaId, prodId);
+	}
+
+	@Override
+	public ProduccionPlanta getById(Integer id) {
+		return produccionPlantaDao.getById(id);
+	}
 	
 }

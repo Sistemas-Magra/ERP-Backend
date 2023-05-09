@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.magra.erp.models.entity.ventas.OrdenVenta;
 
 public interface IOrdenVentaDao extends JpaRepository<OrdenVenta, Integer> {
+	@Query("SELECT ot.id FROM OrdenTrabajo ot WHERE ot.ordenVenta.id = ?1")
+	Integer getOrdenTrabajoIdByOrdenVenta(Integer id);
+	
 	@Query(value="EXEC web_v001_sel_listado_ventas_cotizaciones ?1 , ?2 , ?3 , ?4", nativeQuery=true)
 	List<Map<String, Object>> getListadoMaestro(String cliente, String fechaDesde, String fechaHasta, Integer indVerAnulados);
 	

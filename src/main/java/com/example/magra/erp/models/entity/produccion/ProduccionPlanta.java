@@ -41,6 +41,36 @@ public class ProduccionPlanta implements Serializable {
 	@JoinColumn(name = "produccion_planta_id")
 	private List<ProduccionPlantaPoste> detallePostes;
 	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionRegistroMezcla> detalleMezcla;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionRegistroEstructura> detalleEstructura;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionRegistroTubosPines> detalleTubosPines;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionRegistroCentrifugado> detalleCentrifugado;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionRegistroDesencrofado> detalleDesencrofado;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionRegistroCurado> detalleCurado;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -79,6 +109,54 @@ public class ProduccionPlanta implements Serializable {
 
 	public void setDetallePostes(List<ProduccionPlantaPoste> detallePostes) {
 		this.detallePostes = detallePostes;
+	}
+
+	public List<ProduccionRegistroMezcla> getDetalleMezcla() {
+		return detalleMezcla;
+	}
+
+	public void setDetalleMezcla(List<ProduccionRegistroMezcla> detalleMezcla) {
+		this.detalleMezcla = detalleMezcla;
+	}
+
+	public List<ProduccionRegistroEstructura> getDetalleEstructura() {
+		return detalleEstructura;
+	}
+
+	public void setDetalleEstructura(List<ProduccionRegistroEstructura> detalleEstructura) {
+		this.detalleEstructura = detalleEstructura;
+	}
+
+	public List<ProduccionRegistroTubosPines> getDetalleTubosPines() {
+		return detalleTubosPines;
+	}
+
+	public void setDetalleTubosPines(List<ProduccionRegistroTubosPines> detalleTubosPines) {
+		this.detalleTubosPines = detalleTubosPines;
+	}
+
+	public List<ProduccionRegistroCentrifugado> getDetalleCentrifugado() {
+		return detalleCentrifugado;
+	}
+
+	public void setDetalleCentrifugado(List<ProduccionRegistroCentrifugado> detalleCentrifugado) {
+		this.detalleCentrifugado = detalleCentrifugado;
+	}
+
+	public List<ProduccionRegistroDesencrofado> getDetalleDesencrofado() {
+		return detalleDesencrofado;
+	}
+
+	public void setDetalleDesencrofado(List<ProduccionRegistroDesencrofado> detalleDesencrofado) {
+		this.detalleDesencrofado = detalleDesencrofado;
+	}
+
+	public List<ProduccionRegistroCurado> getDetalleCurado() {
+		return detalleCurado;
+	}
+
+	public void setDetalleCurado(List<ProduccionRegistroCurado> detalleCurado) {
+		this.detalleCurado = detalleCurado;
 	}
 
 	private static final long serialVersionUID = 1L;

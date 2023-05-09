@@ -28,6 +28,6 @@ public interface ITablaAuxiliarDetalleDao extends CrudRepository<TablaAuxiliarDe
 	@Query("select d from TablaAuxiliarDetalle d where d.tablaAuxiliarDetalleId.tablaAuxiliar.codTablaAuxiliar = ?1 and d.tablaAuxiliarDetalleId.id > ?2")
 	public List<TablaAuxiliarDetalle> listDropdownByCodigoMerma(String codTablaAuxiliar, Integer id);
 	
-	@Query("select d from TablaAuxiliarDetalle d where d.tablaAuxiliarDetalleId.tablaAuxiliar.codTablaAuxiliar = ?1")
+	@Query("select d from TablaAuxiliarDetalle d where d.tablaAuxiliarDetalleId.tablaAuxiliar.codTablaAuxiliar = ?1 ORDER BY d.tablaAuxiliarDetalleId.id ASC")
 	public List<TablaAuxiliarDetalle> listByCodigoTablaAux(String codTablaAuxiliar);
 }

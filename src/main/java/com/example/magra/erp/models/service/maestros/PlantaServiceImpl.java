@@ -19,4 +19,9 @@ public class PlantaServiceImpl implements IPlantaService {
 		return plantaDao.getPlantasActivas();
 	}
 
+	@Override
+	public Planta getPlantaById(Integer id) {
+		return plantaDao.getById(id);
+	}
+
 }

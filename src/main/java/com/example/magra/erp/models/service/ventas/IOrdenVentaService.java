@@ -10,4 +10,5 @@ public interface IOrdenVentaService {
 	List<Map<String, Object>> getListadoMaestro(String cliente, String fechaDesde, String fechaHasta, Integer indVerAnulados);
 	Integer getCodigo();
 	OrdenVenta getById(Integer id);
+	Integer getOrdenTrabajoIdByOrdenVenta(Integer id);
 }

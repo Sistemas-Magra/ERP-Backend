@@ -50,19 +50,28 @@ public class OrdenVenta implements Serializable {
 	private Integer diasValidez;
 
 	@Column(precision =10, scale=2)	
-	private Double aniosGarantia;
+	private BigDecimal aniosGarantia;
 
 	@Column(precision =10, scale=2)	
-	private Double plazoEntrega;
+	private BigDecimal plazoEntrega;
 
 	@Column(precision =10, scale=2)	
-	private Double subtotal;
+	private BigDecimal subtotal;
 
 	@Column(precision =10, scale=2)	
-	private Double montoIgv;
+	private BigDecimal montoIgv;
 
 	@Column(precision =10, scale=2)	
-	private Double total;
+	private BigDecimal total;
+
+	@Column(precision =10, scale=2)	
+	private BigDecimal adelanto;
+
+	@Column(precision =10, scale=2)	
+	private BigDecimal adelantoPorc;
+
+	@Column(precision =10, scale=2)	
+	private BigDecimal pagoPendiente;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = false)
@@ -78,10 +87,6 @@ public class OrdenVenta implements Serializable {
 	
 	@Temporal(TemporalType.DATE)
 	private Date fechaEntregaBase;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle formaPago;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -165,46 +170,6 @@ public class OrdenVenta implements Serializable {
 		this.diasValidez = diasValidez;
 	}
 
-	public Double getAniosGarantia() {
-		return aniosGarantia;
-	}
-
-	public void setAniosGarantia(Double aniosGarantia) {
-		this.aniosGarantia = aniosGarantia;
-	}
-
-	public Double getPlazoEntrega() {
-		return plazoEntrega;
-	}
-
-	public void setPlazoEntrega(Double plazoEntrega) {
-		this.plazoEntrega = plazoEntrega;
-	}
-
-	public Double getSubtotal() {
-		return subtotal;
-	}
-
-	public void setSubtotal(Double subtotal) {
-		this.subtotal = subtotal;
-	}
-
-	public Double getMontoIgv() {
-		return montoIgv;
-	}
-
-	public void setMontoIgv(Double montoIgv) {
-		this.montoIgv = montoIgv;
-	}
-
-	public Double getTotal() {
-		return total;
-	}
-
-	public void setTotal(Double total) {
-		this.total = total;
-	}
-
 	public TablaAuxiliarDetalle getEstado() {
 		return estado;
 	}
@@ -221,12 +186,68 @@ public class OrdenVenta implements Serializable {
 		this.fechaEntregaBase = fechaEntregaBase;
 	}
 
-	public TablaAuxiliarDetalle getFormaPago() {
-		return formaPago;
+	public BigDecimal getAniosGarantia() {
+		return aniosGarantia;
 	}
 
-	public void setFormaPago(TablaAuxiliarDetalle formaPago) {
-		this.formaPago = formaPago;
+	public void setAniosGarantia(BigDecimal aniosGarantia) {
+		this.aniosGarantia = aniosGarantia;
+	}
+
+	public BigDecimal getPlazoEntrega() {
+		return plazoEntrega;
+	}
+
+	public void setPlazoEntrega(BigDecimal plazoEntrega) {
+		this.plazoEntrega = plazoEntrega;
+	}
+
+	public BigDecimal getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(BigDecimal subtotal) {
+		this.subtotal = subtotal;
+	}
+
+	public BigDecimal getMontoIgv() {
+		return montoIgv;
+	}
+
+	public void setMontoIgv(BigDecimal montoIgv) {
+		this.montoIgv = montoIgv;
+	}
+
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
+
+	public BigDecimal getAdelanto() {
+		return adelanto;
+	}
+
+	public void setAdelanto(BigDecimal adelanto) {
+		this.adelanto = adelanto;
+	}
+
+	public BigDecimal getAdelantoPorc() {
+		return adelantoPorc;
+	}
+
+	public void setAdelantoPorc(BigDecimal adelantoPorc) {
+		this.adelantoPorc = adelantoPorc;
+	}
+
+	public BigDecimal getPagoPendiente() {
+		return pagoPendiente;
+	}
+
+	public void setPagoPendiente(BigDecimal pagoPendiente) {
+		this.pagoPendiente = pagoPendiente;
 	}
 
 	public TablaAuxiliarDetalle getSaldoPago() {

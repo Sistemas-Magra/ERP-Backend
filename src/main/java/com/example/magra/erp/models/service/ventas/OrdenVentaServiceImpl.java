@@ -36,4 +36,9 @@ public class OrdenVentaServiceImpl implements IOrdenVentaService {
 		return ordenVentaDao.getById(id);
 	}
 
+	@Override
+	public Integer getOrdenTrabajoIdByOrdenVenta(Integer id) {
+		return ordenVentaDao.getOrdenTrabajoIdByOrdenVenta(id);
+	}
+
 }

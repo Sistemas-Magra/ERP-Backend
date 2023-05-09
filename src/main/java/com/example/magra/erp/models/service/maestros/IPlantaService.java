@@ -6,4 +6,5 @@ import com.example.magra.erp.models.entity.maestro.Planta;
 
 public interface IPlantaService {
 	List<Planta> getPlantasActivas();
+	Planta getPlantaById(Integer id);
 }

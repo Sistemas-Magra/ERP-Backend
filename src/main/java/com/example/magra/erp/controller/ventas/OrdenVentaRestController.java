@@ -1,6 +1,7 @@
 package com.example.magra.erp.controller.ventas;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -9,11 +10,16 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +37,7 @@ import com.example.magra.erp.models.entity.produccion.OrdenTrabajo;
 import com.example.magra.erp.models.entity.produccion.OrdenTrabajoDetalle;
 import com.example.magra.erp.models.entity.ventas.OrdenVenta;
 import com.example.magra.erp.models.entity.ventas.OrdenVentaDetalle;
+import com.example.magra.erp.models.entity.ventas.Pago;
 import com.example.magra.erp.models.service.IUploadFileService;
 import com.example.magra.erp.models.service.auxiliares.IConfiguracionService;
 import com.example.magra.erp.models.service.maestros.IClienteContactoService;
@@ -89,41 +96,124 @@ public class OrdenVentaRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
+	@PutMapping("/orden-venta/registrar-pago/{id}")
+	public ResponseEntity<?> registrarPago(
+				@PathVariable Integer id,
+				@RequestParam(value="ad", required=true) BigDecimal adelanto,
+				@RequestParam(value="pen", required=true) BigDecimal pendiente,
+				@RequestParam(value="to", required=true) BigDecimal total,
+				@RequestBody Pago pago,
+				@Valid BindingResult result
+			){
+		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+		OrdenVenta ven = ordenVentaService.getById(id);
+		
+		List<Pago> pagos = ven.getPagos();
+		
+		try {
+			
+			BigDecimal parte1 = total.subtract(pendiente);
+			BigDecimal parte2 = adelanto.subtract(pago.getMonto());
+			
+			if((total.subtract(pendiente).compareTo(adelanto)) == -1 && parte1.compareTo(parte2) == 1) {
+				BigDecimal pagoAdelanto = adelanto.subtract(total.subtract(pendiente));
+				BigDecimal pagoNoAdelanto = pago.getMonto().subtract(pagoAdelanto);
+				
+				Pago pago1 = new Pago();
+				pago1.setFechaCrea(new Date());
+				pago1.setIdUsuarioCrea(pago.getIdUsuarioCrea());
+				pago1.setNombreUsuarioCrea(pago.getNombreUsuarioCrea());
+				pago1.setIndEsAdelanto(true);
+				pago1.setMonto(pagoAdelanto);
+				pago1.setTipoPago(pago.getTipoPago());
+
+				
+				Pago pago2 = new Pago();
+				pago2.setFechaCrea(new Date());
+				pago2.setIdUsuarioCrea(pago.getIdUsuarioCrea());
+				pago2.setNombreUsuarioCrea(pago.getNombreUsuarioCrea());
+				pago2.setIndEsAdelanto(false);
+				pago2.setMonto(pagoNoAdelanto);
+				pago2.setTipoPago(pago.getTipoPago());
+				
+				pagos.add(pago1);
+				pagos.add(pago2);
+			} else {
+				pagos.add(pago);
+			}
+			
+			ven.setPagos(pagos);
+			ven.setPagoPendiente(pendiente.subtract(pago.getMonto()));
+			
+			ven = ordenVentaService.save(ven);
+			
+			if(ven.getPagoPendiente().compareTo(total.subtract(adelanto)) <= 0) {
+				
+				if(ordenVentaService.getOrdenTrabajoIdByOrdenVenta(ven.getId()) == null) {
+					
+					OrdenTrabajo ot = new OrdenTrabajo();
+					
+					ot.setCodigo(LocalDate.now().getYear() + "-" + String.format("%05d", otService.getCatOT()+ 1 ));
+					ot.setIdUsuarioCrea(ven.getIdUsuarioModifica());
+					ot.setOrdenVenta(ven);
+					ot.setNombreTrabajo(ven.getNombreTrabajo());
+					
+					List<OrdenTrabajoDetalle> otdList = new ArrayList<>();
+					
+					for(OrdenVentaDetalle ovd: ven.getDetalle()) {
+						OrdenTrabajoDetalle otd = new OrdenTrabajoDetalle();
+						
+						otd.setCantidadPendiente(ovd.getCantidad());
+						otd.setCantidadProducida(0);
+						otd.setCantidadAceptada(0);
+						otd.setCantidadRechazada(0);
+						otd.setCantidadDespachada(0);
+						otd.setOrdenVentaDetalle(ovd);
+						
+						otdList.add(otd);
+						
+					}
+					
+					ot.setDetalle(otdList);
+					ot.setEstado(confService.findById(1, "ESTODT"));
+					
+					otService.save(ot);
+					ven.setEstado(confService.findById(3, "ESTVEN"));
+					ven = ordenVentaService.save(ven);
+					
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("mensaje", "Error al registrar pago.");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CONFLICT);
+		}
+		
+		response.put("pendiente", ven.getPagoPendiente());
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
 	@PutMapping("/orden-venta/update/{id}")
 	public ResponseEntity<?> updateVenta(@PathVariable Integer id, @RequestBody OrdenVenta venta){
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
 			venta.setEstado(confService.findById(2, "ESTVEN"));
-			OrdenVenta ordenVentaSaved = ordenVentaService.save(venta);
+			ordenVentaService.save(venta);
 			
-			OrdenTrabajo ot = new OrdenTrabajo();
-			
-			ot.setCodigo(LocalDate.now().getYear() + "-" + String.format("%05d", otService.getCatOT()+ 1 ));
-			ot.setIdUsuarioCrea(ordenVentaSaved.getIdUsuarioModifica());
-			ot.setOrdenVenta(ordenVentaSaved);
-			ot.setNombreTrabajo(venta.getNombreTrabajo());
-			
-			List<OrdenTrabajoDetalle> otdList = new ArrayList<>();
-			
-			for(OrdenVentaDetalle ovd: ordenVentaSaved.getDetalle()) {
-				OrdenTrabajoDetalle otd = new OrdenTrabajoDetalle();
-				
-				otd.setCantidadPendiente(ovd.getCantidad());
-				otd.setCantidadProducida(0);
-				otd.setCantidadAceptada(0);
-				otd.setCantidadRechazada(0);
-				otd.setCantidadDespachada(0);
-				otd.setOrdenVentaDetalle(ovd);
-				
-				otdList.add(otd);
-				
-			}
-			
-			ot.setDetalle(otdList);
-			ot.setEstado(confService.findById(1, "ESTODT"));
-			
-			otService.save(ot);
+			/**/
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.put("mensaje", "Error al intentar guardar los datos correspondientes.");			

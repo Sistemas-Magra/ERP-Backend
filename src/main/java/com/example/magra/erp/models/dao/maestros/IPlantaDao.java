@@ -10,4 +10,7 @@ import com.example.magra.erp.models.entity.maestro.Planta;
 public interface IPlantaDao extends JpaRepository<Planta, Integer> {
 	@Query("SELECT p FROM Planta p WHERE p.estado.tablaAuxiliarDetalleId.id = 1")
 	List<Planta> getPlantasActivas();
+	
+	@Query("SELECT p FROM Planta p WHERE p.id = ?1")
+	Planta getPlantaById(Integer id);
 }
