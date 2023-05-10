@@ -21,6 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.magra.erp.models.entity.produccion.Produccion;
+import com.example.magra.erp.models.entity.produccion.ProduccionAccesorioRegistroAcabado;
+import com.example.magra.erp.models.entity.produccion.ProduccionAccesorioRegistroArmado;
+import com.example.magra.erp.models.entity.produccion.ProduccionAccesorioRegistroMezcla;
+import com.example.magra.erp.models.entity.produccion.ProduccionAccesorioRegistroVibracion;
 import com.example.magra.erp.models.entity.produccion.ProduccionPlanta;
 import com.example.magra.erp.models.entity.produccion.ProduccionRegistroCentrifugado;
 import com.example.magra.erp.models.entity.produccion.ProduccionRegistroCurado;
@@ -70,6 +74,8 @@ public class FormatosRestController {
 		ProduccionPlanta prodPlanta = prodPlantaService.getById(prodPlantaId);
 		
 		switch (ind){
+		
+			//Postes
 			case 1: {
 				response.put("listado", prodPlanta.getDetalleMezcla());
 				break;
@@ -94,12 +100,338 @@ public class FormatosRestController {
 				response.put("listado", prodPlanta.getDetalleCurado());
 				break;
 			}
+			
+			//Accesorios
+			case 7: {
+				response.put("listado", prodPlanta.getDetalleMezclaAccesorios());
+				break;
+			}
+			case 8: {
+				response.put("listado", prodPlanta.getDetalleArmadoAccesorios());
+				break;
+			}
+			case 9: {
+				response.put("listado", prodPlanta.getDetalleVibracionAccesorios());
+				break;
+			}
+			case 10: {
+				response.put("listado", prodPlanta.getDetalleAcabadoAccesorios());
+				break;
+			}
 		}
 		
 		return response;
 	}
 	
-	@PostMapping("/formatos/curado/create/{plantaId}")
+	@PostMapping("/formatos/accesorios/acabado/create/{plantaId}")
+	public ResponseEntity<?> createVibracionAccesorios(@PathVariable Integer plantaId, @RequestBody ProduccionAccesorioRegistroAcabado acabado, @Valid BindingResult result){
+		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+		Produccion produccion;
+		Integer prodId = prodService.getIdByFecha();
+		ProduccionPlanta prodPlanta;
+		
+		if(prodId == null) {
+			produccion = new Produccion();
+			produccion.setEstado(confService.findById(1, "ESTPRD"));
+			produccion.setFecha(new Date());
+			
+			prodPlanta = new ProduccionPlanta();
+			prodPlanta.setEstado(confService.findById(1, "ESTPPL"));
+			prodPlanta.setIndProcesoCalidad(false);
+			prodPlanta.setPlanta(plantaService.getPlantaById(plantaId));
+			
+			List<ProduccionAccesorioRegistroAcabado> listAcabado = new ArrayList<>();
+			listAcabado.add(acabado);
+			
+			prodPlanta.setDetalleAcabadoAccesorios(listAcabado);
+			
+			List<ProduccionPlanta> listPlanta = new ArrayList<>();
+			listPlanta.add(prodPlanta);
+			
+			produccion.setDetallePlanta(listPlanta);
+			
+			produccion = prodService.save(produccion);
+			
+		} else {
+			Integer prodPlantaId = prodPlantaService.getIdByProduccionAndPlanta(plantaId, prodId);
+			
+			if(prodPlantaId == null) {
+				produccion = prodService.getById(prodId);
+				
+				prodPlanta = new ProduccionPlanta();
+				prodPlanta.setEstado(confService.findById(1, "ESTPPL"));
+				prodPlanta.setIndProcesoCalidad(false);
+				prodPlanta.setPlanta(plantaService.getPlantaById(plantaId));
+				
+				List<ProduccionAccesorioRegistroAcabado> listAcabado = new ArrayList<>();
+				listAcabado.add(acabado);
+				
+				prodPlanta.setDetalleAcabadoAccesorios(listAcabado);
+				
+				List<ProduccionPlanta> listPlanta = produccion.getDetallePlanta();
+				listPlanta.add(prodPlanta);
+				
+				produccion.setDetallePlanta(listPlanta);
+				
+				produccion = prodService.save(produccion);
+			} else {
+				prodPlanta = prodPlantaService.getById(prodPlantaId);
+				
+				List<ProduccionAccesorioRegistroAcabado> listAcabado = prodPlanta.getDetalleAcabadoAccesorios();
+				listAcabado.add(acabado);
+				
+				prodPlanta.setDetalleAcabadoAccesorios(listAcabado);
+				
+				prodPlanta = prodPlantaService.save(prodPlanta);
+			}
+			
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	@PostMapping("/formatos/accesorios/vibracion/create/{plantaId}")
+	public ResponseEntity<?> createVibracionAccesorios(@PathVariable Integer plantaId, @RequestBody ProduccionAccesorioRegistroVibracion vibracion, @Valid BindingResult result){
+		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+		Produccion produccion;
+		Integer prodId = prodService.getIdByFecha();
+		ProduccionPlanta prodPlanta;
+		
+		if(prodId == null) {
+			produccion = new Produccion();
+			produccion.setEstado(confService.findById(1, "ESTPRD"));
+			produccion.setFecha(new Date());
+			
+			prodPlanta = new ProduccionPlanta();
+			prodPlanta.setEstado(confService.findById(1, "ESTPPL"));
+			prodPlanta.setIndProcesoCalidad(false);
+			prodPlanta.setPlanta(plantaService.getPlantaById(plantaId));
+			
+			List<ProduccionAccesorioRegistroVibracion> listVibracion = new ArrayList<>();
+			listVibracion.add(vibracion);
+			
+			prodPlanta.setDetalleVibracionAccesorios(listVibracion);
+			
+			List<ProduccionPlanta> listPlanta = new ArrayList<>();
+			listPlanta.add(prodPlanta);
+			
+			produccion.setDetallePlanta(listPlanta);
+			
+			produccion = prodService.save(produccion);
+			
+		} else {
+			Integer prodPlantaId = prodPlantaService.getIdByProduccionAndPlanta(plantaId, prodId);
+			
+			if(prodPlantaId == null) {
+				produccion = prodService.getById(prodId);
+				
+				prodPlanta = new ProduccionPlanta();
+				prodPlanta.setEstado(confService.findById(1, "ESTPPL"));
+				prodPlanta.setIndProcesoCalidad(false);
+				prodPlanta.setPlanta(plantaService.getPlantaById(plantaId));
+				
+				List<ProduccionAccesorioRegistroVibracion> listVibracion = new ArrayList<>();
+				listVibracion.add(vibracion);
+				
+				prodPlanta.setDetalleVibracionAccesorios(listVibracion);
+				
+				List<ProduccionPlanta> listPlanta = produccion.getDetallePlanta();
+				listPlanta.add(prodPlanta);
+				
+				produccion.setDetallePlanta(listPlanta);
+				
+				produccion = prodService.save(produccion);
+			} else {
+				prodPlanta = prodPlantaService.getById(prodPlantaId);
+				
+				List<ProduccionAccesorioRegistroVibracion> listVibracion = prodPlanta.getDetalleVibracionAccesorios();
+				listVibracion.add(vibracion);
+				
+				prodPlanta.setDetalleVibracionAccesorios(listVibracion);
+				
+				prodPlanta = prodPlantaService.save(prodPlanta);
+			}
+			
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	@PostMapping("/formatos/accesorios/armado/create/{plantaId}")
+	public ResponseEntity<?> createArmadoAccesorios(@PathVariable Integer plantaId, @RequestBody ProduccionAccesorioRegistroArmado armado, @Valid BindingResult result){
+		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+		Produccion produccion;
+		Integer prodId = prodService.getIdByFecha();
+		ProduccionPlanta prodPlanta;
+		
+		if(prodId == null) {
+			produccion = new Produccion();
+			produccion.setEstado(confService.findById(1, "ESTPRD"));
+			produccion.setFecha(new Date());
+			
+			prodPlanta = new ProduccionPlanta();
+			prodPlanta.setEstado(confService.findById(1, "ESTPPL"));
+			prodPlanta.setIndProcesoCalidad(false);
+			prodPlanta.setPlanta(plantaService.getPlantaById(plantaId));
+			
+			List<ProduccionAccesorioRegistroArmado> listArmado = new ArrayList<>();
+			listArmado.add(armado);
+			
+			prodPlanta.setDetalleArmadoAccesorios(listArmado);
+			
+			List<ProduccionPlanta> listPlanta = new ArrayList<>();
+			listPlanta.add(prodPlanta);
+			
+			produccion.setDetallePlanta(listPlanta);
+			
+			produccion = prodService.save(produccion);
+			
+		} else {
+			Integer prodPlantaId = prodPlantaService.getIdByProduccionAndPlanta(plantaId, prodId);
+			
+			if(prodPlantaId == null) {
+				produccion = prodService.getById(prodId);
+				
+				prodPlanta = new ProduccionPlanta();
+				prodPlanta.setEstado(confService.findById(1, "ESTPPL"));
+				prodPlanta.setIndProcesoCalidad(false);
+				prodPlanta.setPlanta(plantaService.getPlantaById(plantaId));
+				
+				List<ProduccionAccesorioRegistroArmado> listArmado = new ArrayList<>();
+				listArmado.add(armado);
+				
+				prodPlanta.setDetalleArmadoAccesorios(listArmado);
+				
+				List<ProduccionPlanta> listPlanta = produccion.getDetallePlanta();
+				listPlanta.add(prodPlanta);
+				
+				produccion.setDetallePlanta(listPlanta);
+				
+				produccion = prodService.save(produccion);
+			} else {
+				prodPlanta = prodPlantaService.getById(prodPlantaId);
+				
+				List<ProduccionAccesorioRegistroArmado> listArmado = prodPlanta.getDetalleArmadoAccesorios();
+				listArmado.add(armado);
+				
+				prodPlanta.setDetalleArmadoAccesorios(listArmado);
+				
+				prodPlanta = prodPlantaService.save(prodPlanta);
+			}
+			
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	@PostMapping("/formatos/accesorios/mezcla/create/{plantaId}")
+	public ResponseEntity<?> createMezclaAccesorios(@PathVariable Integer plantaId, @RequestBody ProduccionAccesorioRegistroMezcla mezcla, @Valid BindingResult result){
+		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+		Produccion produccion;
+		Integer prodId = prodService.getIdByFecha();
+		ProduccionPlanta prodPlanta;
+		
+		if(prodId == null) {
+			produccion = new Produccion();
+			produccion.setEstado(confService.findById(1, "ESTPRD"));
+			produccion.setFecha(new Date());
+			
+			prodPlanta = new ProduccionPlanta();
+			prodPlanta.setEstado(confService.findById(1, "ESTPPL"));
+			prodPlanta.setIndProcesoCalidad(false);
+			prodPlanta.setPlanta(plantaService.getPlantaById(plantaId));
+			
+			List<ProduccionAccesorioRegistroMezcla> listMezcla = new ArrayList<>();
+			listMezcla.add(mezcla);
+			
+			prodPlanta.setDetalleMezclaAccesorios(listMezcla);
+			
+			List<ProduccionPlanta> listPlanta = new ArrayList<>();
+			listPlanta.add(prodPlanta);
+			
+			produccion.setDetallePlanta(listPlanta);
+			
+			produccion = prodService.save(produccion);
+			
+		} else {
+			Integer prodPlantaId = prodPlantaService.getIdByProduccionAndPlanta(plantaId, prodId);
+			
+			if(prodPlantaId == null) {
+				produccion = prodService.getById(prodId);
+				
+				prodPlanta = new ProduccionPlanta();
+				prodPlanta.setEstado(confService.findById(1, "ESTPPL"));
+				prodPlanta.setIndProcesoCalidad(false);
+				prodPlanta.setPlanta(plantaService.getPlantaById(plantaId));
+				
+				List<ProduccionAccesorioRegistroMezcla> listMezcla = new ArrayList<>();
+				listMezcla.add(mezcla);
+				
+				prodPlanta.setDetalleMezclaAccesorios(listMezcla);
+				
+				List<ProduccionPlanta> listPlanta = produccion.getDetallePlanta();
+				listPlanta.add(prodPlanta);
+				
+				produccion.setDetallePlanta(listPlanta);
+				
+				produccion = prodService.save(produccion);
+			} else {
+				prodPlanta = prodPlantaService.getById(prodPlantaId);
+				
+				List<ProduccionAccesorioRegistroMezcla> listMezcla = prodPlanta.getDetalleMezclaAccesorios();
+				listMezcla.add(mezcla);
+				
+				prodPlanta.setDetalleMezclaAccesorios(listMezcla);
+				
+				prodPlanta = prodPlantaService.save(prodPlanta);
+			}
+			
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	@PostMapping("/formatos/postes/curado/create/{plantaId}")
 	public ResponseEntity<?> createCurado(@PathVariable Integer plantaId, @RequestBody ProduccionRegistroCurado curado, @Valid BindingResult result){
 		Map<String, Object> response = new HashMap<>();
 
@@ -176,7 +508,7 @@ public class FormatosRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@PostMapping("/formatos/desencrofado/create/{plantaId}")
+	@PostMapping("/formatos/postes/desencrofado/create/{plantaId}")
 	public ResponseEntity<?> createDesencrofado(@PathVariable Integer plantaId, @RequestBody ProduccionRegistroDesencrofado desencrofado, @Valid BindingResult result){
 		Map<String, Object> response = new HashMap<>();
 
@@ -253,7 +585,7 @@ public class FormatosRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@PostMapping("/formatos/centrifugado/create/{plantaId}")
+	@PostMapping("/formatos/postes/centrifugado/create/{plantaId}")
 	public ResponseEntity<?> createCentrifugado(@PathVariable Integer plantaId, @RequestBody ProduccionRegistroCentrifugado centrifugado, @Valid BindingResult result){
 		Map<String, Object> response = new HashMap<>();
 
@@ -330,7 +662,7 @@ public class FormatosRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@PostMapping("/formatos/tubos-pines/create/{plantaId}")
+	@PostMapping("/formatos/postes/tubos-pines/create/{plantaId}")
 	public ResponseEntity<?> createTubosPines(@PathVariable Integer plantaId, @RequestBody ProduccionRegistroTubosPines tubosPines, @Valid BindingResult result){
 		Map<String, Object> response = new HashMap<>();
 
@@ -407,7 +739,7 @@ public class FormatosRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@PostMapping("/formatos/estructura/create/{plantaId}")
+	@PostMapping("/formatos/postes/estructura/create/{plantaId}")
 	public ResponseEntity<?> createEstructura(@PathVariable Integer plantaId, @RequestBody ProduccionRegistroEstructura estructura, @Valid BindingResult result){
 		Map<String, Object> response = new HashMap<>();
 
@@ -484,7 +816,7 @@ public class FormatosRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@PostMapping("/formatos/mezcla/create/{plantaId}")
+	@PostMapping("/formatos/postes/mezcla/create/{plantaId}")
 	public ResponseEntity<?> createMezcla(@PathVariable Integer plantaId, @RequestBody ProduccionRegistroMezcla mezcla, @Valid BindingResult result){
 		Map<String, Object> response = new HashMap<>();
 

@@ -41,6 +41,7 @@ public class ProduccionPlanta implements Serializable {
 	@JoinColumn(name = "produccion_planta_id")
 	private List<ProduccionPlantaPoste> detallePostes;
 	
+	//Postes
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "produccion_planta_id")
@@ -70,6 +71,27 @@ public class ProduccionPlanta implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "produccion_planta_id")
 	private List<ProduccionRegistroCurado> detalleCurado;
+	
+	//Accesorios
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionAccesorioRegistroMezcla> detalleMezclaAccesorios;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionAccesorioRegistroArmado> detalleArmadoAccesorios;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionAccesorioRegistroVibracion> detalleVibracionAccesorios;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "produccion_planta_id")
+	private List<ProduccionAccesorioRegistroAcabado> detalleAcabadoAccesorios;
 	
 	public Integer getId() {
 		return id;
@@ -157,6 +179,38 @@ public class ProduccionPlanta implements Serializable {
 
 	public void setDetalleCurado(List<ProduccionRegistroCurado> detalleCurado) {
 		this.detalleCurado = detalleCurado;
+	}
+
+	public List<ProduccionAccesorioRegistroMezcla> getDetalleMezclaAccesorios() {
+		return detalleMezclaAccesorios;
+	}
+
+	public void setDetalleMezclaAccesorios(List<ProduccionAccesorioRegistroMezcla> detalleMezclaAccesorios) {
+		this.detalleMezclaAccesorios = detalleMezclaAccesorios;
+	}
+
+	public List<ProduccionAccesorioRegistroArmado> getDetalleArmadoAccesorios() {
+		return detalleArmadoAccesorios;
+	}
+
+	public void setDetalleArmadoAccesorios(List<ProduccionAccesorioRegistroArmado> detalleArmadoAccesorios) {
+		this.detalleArmadoAccesorios = detalleArmadoAccesorios;
+	}
+
+	public List<ProduccionAccesorioRegistroVibracion> getDetalleVibracionAccesorios() {
+		return detalleVibracionAccesorios;
+	}
+
+	public void setDetalleVibracionAccesorios(List<ProduccionAccesorioRegistroVibracion> detalleVibracionAccesorios) {
+		this.detalleVibracionAccesorios = detalleVibracionAccesorios;
+	}
+
+	public List<ProduccionAccesorioRegistroAcabado> getDetalleAcabadoAccesorios() {
+		return detalleAcabadoAccesorios;
+	}
+
+	public void setDetalleAcabadoAccesorios(List<ProduccionAccesorioRegistroAcabado> detalleAcabadoAccesorios) {
+		this.detalleAcabadoAccesorios = detalleAcabadoAccesorios;
 	}
 
 	private static final long serialVersionUID = 1L;
