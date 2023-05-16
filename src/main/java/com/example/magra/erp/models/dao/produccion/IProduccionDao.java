@@ -17,4 +17,13 @@ public interface IProduccionDao extends JpaRepository<Produccion, Integer> {
 	
 	@Query("SELECT p FROM Produccion p WHERE p.id = ?1")
 	Produccion getById(Integer id);
+	
+	@Query(value="EXEC web_p003_sel_listado_inventario_parte_fija ?1", nativeQuery=true)
+	List<Map<String, Object>> getListadoOrdenesVentaByMes(Integer idMes);
+	
+	@Query(value="EXEC web_p003_sel_listado_inventario ?1", nativeQuery=true)
+	List<Map<String, Object>> getListadoDetalleOrdenesVentaByMes(Integer idMes);
+	
+	@Query(value="SELECT * FROM prod_stock_mensual WHERE id_mes = ?1", nativeQuery=true)
+	List<Map<String, Object>> getStockMensual(Integer idMes);
 }

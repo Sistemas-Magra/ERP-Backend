@@ -11,4 +11,7 @@ public interface IProduccionPlantaDao extends JpaRepository<ProduccionPlanta, In
 	
 	@Query("SELECT pp FROM ProduccionPlanta pp WHERE pp.id = ?1")
 	ProduccionPlanta getById(Integer id);
+	
+	@Query(value="EXEC web_p003_man_actualizar_stock_mensual ?1", nativeQuery=true)
+	void actualizarProduccion(String stickerProduccion);
 }

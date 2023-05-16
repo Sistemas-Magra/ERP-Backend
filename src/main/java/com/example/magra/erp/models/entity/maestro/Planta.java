@@ -35,6 +35,9 @@ public class Planta  implements Serializable {
 	@Column(length = 50)
 	private String alias;
 	
+	@Column(length = 2)
+	private String numero;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private TablaAuxiliarDetalle estado;
@@ -119,6 +122,14 @@ public class Planta  implements Serializable {
 
 	public void setFechaModifica(Date fechaModifica) {
 		this.fechaModifica = fechaModifica;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 
 	@PrePersist

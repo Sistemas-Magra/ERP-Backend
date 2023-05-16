@@ -33,5 +33,20 @@ public class ProduccionServiceImpl implements IProduccionService {
 	public List<Map<String, Object>> getListadoProduccion(String fechaDesde, String fechaHasta, Integer estadoId) {
 		return produccionDao.getListadoProduccion(fechaDesde, fechaHasta, estadoId);
 	}
+
+	@Override
+	public List<Map<String, Object>> getListadoOrdenesVentaByMes(Integer idMes) {
+		return produccionDao.getListadoOrdenesVentaByMes(idMes);
+	}
+
+	@Override
+	public List<Map<String, Object>> getListadoDetalleOrdenesVentaByMes(Integer idMes) {
+		return produccionDao.getListadoDetalleOrdenesVentaByMes(idMes);
+	}
+
+	@Override
+	public List<Map<String, Object>> getStockMensual(Integer idMes) {
+		return produccionDao.getStockMensual(idMes);
+	}
 	
 }

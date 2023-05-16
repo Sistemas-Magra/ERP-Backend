@@ -25,5 +25,10 @@ public class ProduccionPlantaServiceImpl implements IProduccionPlantaService {
 	public ProduccionPlanta getById(Integer id) {
 		return produccionPlantaDao.getById(id);
 	}
+
+	@Override
+	public void actualizarProduccion(String stickerProduccion) {
+		produccionPlantaDao.actualizarProduccion(stickerProduccion);
+	}
 	
 }

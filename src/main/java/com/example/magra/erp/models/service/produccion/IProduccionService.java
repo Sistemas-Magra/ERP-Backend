@@ -10,4 +10,7 @@ public interface IProduccionService {
 	Produccion getById(Integer id);
 	Produccion save(Produccion produccion);
 	List<Map<String, Object>> getListadoProduccion(String fechaDesde, String fechaHasta, Integer estadoId);
+	List<Map<String, Object>> getListadoOrdenesVentaByMes(Integer idMes);
+	List<Map<String, Object>> getListadoDetalleOrdenesVentaByMes(Integer idMes);
+	List<Map<String, Object>> getStockMensual(Integer idMes);
 }

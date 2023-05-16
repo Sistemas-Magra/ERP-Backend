@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,17 @@ public class ProduccionRestController {
 	@Autowired
 	private IProduccionPlantaService produccionPlantaService;
 	
+	@GetMapping("/produccion/listado-mensual/{indMes}")
+	public Map<String, Object> getListadoInventarioMensual(@PathVariable Integer indMes) {
+		Map<String, Object> response = new HashMap<>();
+		
+		response.put("fijo", produccionService.getListadoOrdenesVentaByMes(indMes));
+		response.put("diario", produccionService.getListadoDetalleOrdenesVentaByMes(indMes));
+		response.put("anterior", produccionService.getStockMensual(indMes - 1));
+		
+		return response;
+	}
+	
 	@GetMapping("/produccion/listado")
 	public List<Map<String, Object>> getListado(
 			@RequestParam(value="fd", required=false) String fechaDesde,
@@ -48,8 +60,8 @@ public class ProduccionRestController {
 		return produccionService.getListadoProduccion(fechaDesde, fechaHasta, estadoId);
 	}
 	
-	@PutMapping("/produccion/update/listado-produccion")
-	public ResponseEntity<?> update(@RequestBody ProduccionPlanta produccionPlanta, @Valid BindingResult result) {
+	@PutMapping("/produccion/update/listado-produccion/{stickerProduccion}")
+	public ResponseEntity<?> update(@PathVariable String stickerProduccion, @RequestBody ProduccionPlanta produccionPlanta, @Valid BindingResult result) {
 		
 		Map<String, Object> response = new HashMap<>();
 
@@ -64,6 +76,7 @@ public class ProduccionRestController {
 		
 		try {
 			ProduccionPlanta prodNew = produccionPlantaService.save(produccionPlanta);
+			produccionPlantaService.actualizarProduccion(stickerProduccion);
 			response.put("object", prodNew);
 		} catch (Exception e) {
 			e.printStackTrace();

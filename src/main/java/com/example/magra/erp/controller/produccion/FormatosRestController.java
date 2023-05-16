@@ -53,6 +53,75 @@ public class FormatosRestController {
 	@Autowired
 	private IPlantaService plantaService;
 	
+	@GetMapping("/formatos/get-listado/{prodId}/{plantaId}/{ind}")
+	public Map<String, Object> getListadoFormatoVista(@PathVariable Integer prodId, @PathVariable Integer plantaId, @PathVariable Integer ind) {
+		Map<String, Object> response = new HashMap<>();
+		
+		if(prodId == null) {
+			response.put("mensaje", "No hay registros de producción en esta planta.");
+			return response;
+		}
+		
+		Integer prodPlantaId = prodPlantaService.getIdByProduccionAndPlanta(plantaId, prodId);
+		
+		if(prodPlantaId == null) {
+			response.put("mensaje", "No hay registros de producción en esta planta.");
+			return response;
+		}
+		
+		ProduccionPlanta prodPlanta = prodPlantaService.getById(prodPlantaId);
+		
+		switch (ind){
+		
+			//Postes
+			case 1: {
+				response.put("listado", prodPlanta.getDetalleMezcla());
+				System.out.println(prodPlanta.getId());
+				break;
+			}
+			case 2: {
+				response.put("listado", prodPlanta.getDetalleEstructura());
+				break;
+			}
+			case 3: {
+				response.put("listado", prodPlanta.getDetalleTubosPines());
+				break;
+			}
+			case 4: {
+				response.put("listado", prodPlanta.getDetalleCentrifugado());
+				break;
+			}
+			case 5: {
+				response.put("listado", prodPlanta.getDetalleDesencrofado());
+				break;
+			}
+			case 6: {
+				response.put("listado", prodPlanta.getDetalleCurado());
+				break;
+			}
+			
+			//Accesorios
+			case 7: {
+				response.put("listado", prodPlanta.getDetalleMezclaAccesorios());
+				break;
+			}
+			case 8: {
+				response.put("listado", prodPlanta.getDetalleArmadoAccesorios());
+				break;
+			}
+			case 9: {
+				response.put("listado", prodPlanta.getDetalleVibracionAccesorios());
+				break;
+			}
+			case 10: {
+				response.put("listado", prodPlanta.getDetalleAcabadoAccesorios());
+				break;
+			}
+		}
+		
+		return response;
+	}
+	
 	@GetMapping("/formatos/get-listado/{plantaId}/{ind}")
 	public Map<String, Object> getListadoFormato(@PathVariable Integer plantaId, @PathVariable Integer ind) {
 		Map<String, Object> response = new HashMap<>();
@@ -78,6 +147,7 @@ public class FormatosRestController {
 			//Postes
 			case 1: {
 				response.put("listado", prodPlanta.getDetalleMezcla());
+				System.out.println(prodPlanta.getId());
 				break;
 			}
 			case 2: {
