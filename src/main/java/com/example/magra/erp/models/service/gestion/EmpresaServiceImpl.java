@@ -19,4 +19,9 @@ public class EmpresaServiceImpl implements IEmpresaService {
 		return empresaDao.getEmpresasActivas();
 	}
 
+	@Override
+	public Empresa getEmpresaById(Integer empresaId) {
+		return empresaDao.getById(empresaId);
+	}
+
 }

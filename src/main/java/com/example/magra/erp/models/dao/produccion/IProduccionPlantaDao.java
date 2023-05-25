@@ -14,4 +14,21 @@ public interface IProduccionPlantaDao extends JpaRepository<ProduccionPlanta, In
 	
 	@Query(value="EXEC web_p003_man_actualizar_stock_mensual ?1", nativeQuery=true)
 	void actualizarProduccion(String stickerProduccion);
+	
+	@Query(value="UPDATE otd\r\n"
+			+ "SET otd.cantidad_aceptada = aprob.cantidad_aprobada,\r\n"
+			+ "	otd.cantidad_rechazada = rech.cantidad_rechazada\r\n"
+			+ "FROM prod_orden_trabajo_detalle otd\r\n"
+			+ "CROSS APPLY (\r\n"
+			+ "	SELECT COUNT(ppp.id) AS cantidad_aprobada\r\n"
+			+ "	FROM prod_produccion_planta_poste ppp\r\n"
+			+ "	WHERE ppp.orden_trabajo_detalle_id = otd.id AND ppp.ind_conformidad = 1\r\n"
+			+ ") AS aprob\r\n"
+			+ "CROSS APPLY (\r\n"
+			+ "	SELECT COUNT(ppp.id) AS cantidad_rechazada\r\n"
+			+ "	FROM prod_produccion_planta_poste ppp\r\n"
+			+ "	WHERE ppp.orden_trabajo_detalle_id = otd.id AND ppp.ind_conformidad = 0\r\n"
+			+ ") AS rech;"
+			+ " SELECT 1", nativeQuery=true)
+	void actualizarCalidad();
 }

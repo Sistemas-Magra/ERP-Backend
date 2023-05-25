@@ -10,4 +10,7 @@ import com.example.magra.erp.models.entity.gestion.Empresa;
 public interface IEmpresaDao extends JpaRepository<Empresa, Integer> {
 	@Query("SELECT e FROM Empresa e WHERE e.estado.tablaAuxiliarDetalleId.id = 1")
 	List<Empresa> getEmpresasActivas();
+	
+	@Query("SELECT e FROM Empresa e WHERE e.id = ?1")
+	Empresa getEmpresaById(Integer empresaId);
 }

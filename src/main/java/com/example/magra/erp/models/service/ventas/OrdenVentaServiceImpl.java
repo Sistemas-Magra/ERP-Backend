@@ -41,4 +41,9 @@ public class OrdenVentaServiceImpl implements IOrdenVentaService {
 		return ordenVentaDao.getOrdenTrabajoIdByOrdenVenta(id);
 	}
 
+	@Override
+	public List<OrdenVenta> autocompleteByCliente(Integer clienteId, String term) {
+		return ordenVentaDao.autocompleteByCliente(clienteId, term);
+	}
+
 }

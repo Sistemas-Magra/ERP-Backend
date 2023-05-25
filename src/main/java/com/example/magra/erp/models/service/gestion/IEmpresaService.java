@@ -6,4 +6,5 @@ import com.example.magra.erp.models.entity.gestion.Empresa;
 
 public interface IEmpresaService {
 	List<Empresa> getEmpresasActivas();
+	Empresa getEmpresaById(Integer empresaId);
 }

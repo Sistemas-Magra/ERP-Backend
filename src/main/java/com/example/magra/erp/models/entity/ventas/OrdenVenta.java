@@ -38,7 +38,7 @@ public class OrdenVenta implements Serializable {
 	@Column(length=15)
 	private String codigo;
 	
-	@Column(length = 200)
+	@Column(length = 1000)
 	private String nombreTrabajo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -65,12 +65,6 @@ public class OrdenVenta implements Serializable {
 	private BigDecimal total;
 
 	@Column(precision =10, scale=2)	
-	private BigDecimal adelanto;
-
-	@Column(precision =10, scale=2)	
-	private BigDecimal adelantoPorc;
-
-	@Column(precision =10, scale=2)	
 	private BigDecimal pagoPendiente;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -90,7 +84,19 @@ public class OrdenVenta implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
-	private TablaAuxiliarDetalle saldoPago;
+	private TablaAuxiliarDetalle tipoPago;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle metodoPago;
+
+	@Column(precision =10, scale=2)	
+	private BigDecimal adelanto;
+
+	@Column(precision =10, scale=2)	
+	private BigDecimal adelantoPorc;
+	
+	private Integer diasPagoCredito;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -250,14 +256,6 @@ public class OrdenVenta implements Serializable {
 		this.pagoPendiente = pagoPendiente;
 	}
 
-	public TablaAuxiliarDetalle getSaldoPago() {
-		return saldoPago;
-	}
-
-	public void setSaldoPago(TablaAuxiliarDetalle saldoPago) {
-		this.saldoPago = saldoPago;
-	}
-
 	public Moneda getTipoMoneda() {
 		return tipoMoneda;
 	}
@@ -288,6 +286,22 @@ public class OrdenVenta implements Serializable {
 
 	public void setTipoCambio(BigDecimal tipoCambio) {
 		this.tipoCambio = tipoCambio;
+	}
+
+	public TablaAuxiliarDetalle getTipoPago() {
+		return tipoPago;
+	}
+
+	public void setTipoPago(TablaAuxiliarDetalle tipoPago) {
+		this.tipoPago = tipoPago;
+	}
+
+	public Integer getDiasPagoCredito() {
+		return diasPagoCredito;
+	}
+
+	public void setDiasPagoCredito(Integer diasPagoCredito) {
+		this.diasPagoCredito = diasPagoCredito;
 	}
 
 	public List<Pago> getPagos() {
@@ -368,6 +382,14 @@ public class OrdenVenta implements Serializable {
 
 	public void setNombreTrabajo(String nombreTrabajo) {
 		this.nombreTrabajo = nombreTrabajo;
+	}
+
+	public TablaAuxiliarDetalle getMetodoPago() {
+		return metodoPago;
+	}
+
+	public void setMetodoPago(TablaAuxiliarDetalle metodoPago) {
+		this.metodoPago = metodoPago;
 	}
 
 	@PrePersist

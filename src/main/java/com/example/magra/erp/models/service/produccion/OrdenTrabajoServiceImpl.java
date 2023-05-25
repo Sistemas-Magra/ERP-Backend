@@ -1,6 +1,7 @@
 package com.example.magra.erp.models.service.produccion;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,21 @@ public class OrdenTrabajoServiceImpl implements IOrdenTrabajoService{
 	@Override
 	public List<OrdenTrabajo> autocomplete(String term) {
 		return otDao.autocomplete(term);
+	}
+
+	@Override
+	public List<Map<String, Object>> getListadoOrdenesTrabajo() {
+		return otDao.getListadoOrdenesTrabajo();
+	}
+
+	@Override
+	public List<Map<String, Object>> getDetalleOrdenTrabajo(Integer ordenTrabajoId) {
+		return otDao.getDetalleOrdenTrabajo(ordenTrabajoId);
+	}
+
+	@Override
+	public List<Map<String, Object>> getProductosFromOrdenTrabajo(Integer id) {
+		return otDao.getProductosFromOrdenTrabajo(id);
 	}
 	
 }

@@ -2,14 +2,18 @@ package com.example.magra.erp.models.entity.gestion;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -40,10 +44,12 @@ public class Empresa implements Serializable {
 	private String nroDocumentoIdentidad;
 
 	@Column(length=200)
-	private String direccion;
-
-	@Column(length=200)
 	private String logo;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "empresa_id")
+	private List<Sede> sedes;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -99,14 +105,6 @@ public class Empresa implements Serializable {
 		this.nroDocumentoIdentidad = nroDocumentoIdentidad;
 	}
 
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-
 	public String getLogo() {
 		return logo;
 	}
@@ -121,6 +119,14 @@ public class Empresa implements Serializable {
 
 	public void setEstado(TablaAuxiliarDetalle estado) {
 		this.estado = estado;
+	}
+
+	public List<Sede> getSedes() {
+		return sedes;
+	}
+
+	public void setSedes(List<Sede> sedes) {
+		this.sedes = sedes;
 	}
 
 	public Integer getIdUsuarioCrea() {

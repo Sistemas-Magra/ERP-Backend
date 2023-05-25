@@ -1,6 +1,7 @@
 package com.example.magra.erp.models.entity.maestro;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -37,16 +38,16 @@ public class ProductoVenta  implements Serializable {
 	private String nombre;
 
 	@Column(precision =5, scale=2)
-	private Double longitud;
+	private BigDecimal longitud;
 
 	@Column(precision =10, scale=2)
-	private Double cargaTrabajo;
+	private BigDecimal cargaTrabajo;
 
 	@Column(precision =10, scale=2)
-	private Double cima;
+	private BigDecimal cima;
 
 	@Column(precision =10, scale=2)
-	private Double base;
+	private BigDecimal base;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -87,38 +88,6 @@ public class ProductoVenta  implements Serializable {
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
-	}
-
-	public Double getLongitud() {
-		return longitud;
-	}
-
-	public void setLongitud(Double longitud) {
-		this.longitud = longitud;
-	}
-
-	public Double getCargaTrabajo() {
-		return cargaTrabajo;
-	}
-
-	public void setCargaTrabajo(Double cargaTrabajo) {
-		this.cargaTrabajo = cargaTrabajo;
-	}
-
-	public Double getCima() {
-		return cima;
-	}
-
-	public void setCima(Double cima) {
-		this.cima = cima;
-	}
-
-	public Double getBase() {
-		return base;
-	}
-
-	public void setBase(Double base) {
-		this.base = base;
 	}
 
 	public TablaAuxiliarDetalle getTipoProducto() {
@@ -191,6 +160,38 @@ public class ProductoVenta  implements Serializable {
 
 	public void setInsumos(List<MateriaPrimaProducto> insumos) {
 		this.insumos = insumos;
+	}
+
+	public BigDecimal getLongitud() {
+		return longitud;
+	}
+
+	public void setLongitud(BigDecimal longitud) {
+		this.longitud = longitud;
+	}
+
+	public BigDecimal getCargaTrabajo() {
+		return cargaTrabajo;
+	}
+
+	public void setCargaTrabajo(BigDecimal cargaTrabajo) {
+		this.cargaTrabajo = cargaTrabajo;
+	}
+
+	public BigDecimal getCima() {
+		return cima;
+	}
+
+	public void setCima(BigDecimal cima) {
+		this.cima = cima;
+	}
+
+	public BigDecimal getBase() {
+		return base;
+	}
+
+	public void setBase(BigDecimal base) {
+		this.base = base;
 	}
 
 	@PrePersist

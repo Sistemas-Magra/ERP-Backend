@@ -34,7 +34,7 @@ public class OrdenTrabajo implements Serializable {
 	@Column(length = 15)
 	private String codigo;
 	
-	@Column(length = 200)
+	@Column(length = 1000)
 	private String nombreTrabajo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

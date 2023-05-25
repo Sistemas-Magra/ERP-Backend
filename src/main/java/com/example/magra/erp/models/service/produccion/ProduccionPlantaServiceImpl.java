@@ -30,5 +30,10 @@ public class ProduccionPlantaServiceImpl implements IProduccionPlantaService {
 	public void actualizarProduccion(String stickerProduccion) {
 		produccionPlantaDao.actualizarProduccion(stickerProduccion);
 	}
+
+	@Override
+	public void actualizarCalidad() {
+		produccionPlantaDao.actualizarCalidad();
+	}
 	
 }

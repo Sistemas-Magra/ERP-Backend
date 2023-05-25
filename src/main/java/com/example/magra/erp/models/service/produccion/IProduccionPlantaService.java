@@ -7,4 +7,5 @@ public interface IProduccionPlantaService {
 	Integer getIdByProduccionAndPlanta(Integer plantaId, Integer prodId);
 	ProduccionPlanta getById(Integer id);
 	void actualizarProduccion(String stickerProduccion);
+	void actualizarCalidad();
 }

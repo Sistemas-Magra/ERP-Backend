@@ -26,4 +26,17 @@ public interface IProduccionDao extends JpaRepository<Produccion, Integer> {
 	
 	@Query(value="SELECT * FROM prod_stock_mensual WHERE id_mes = ?1", nativeQuery=true)
 	List<Map<String, Object>> getStockMensual(Integer idMes);
+	
+	@Query(value="SELECT \r\n"
+			+ " 'item' AS producto,\r\n"
+			+ " 0 AS cantidad,\r\n"
+			+ "	'08:00 am' AS hora_inicio,\r\n"
+			+ "	'18 de mayo del 2023' AS fecha_inicio,\r\n"
+			+ "	'ELECTROCENTRO' AS cliente,\r\n"
+			+ "	'Obra de Prueba' AS nombre_obra,\r\n"
+			+ "	'06:00 pm' AS hora_fin,\r\n"
+			+ "	'18 de mayo del 2023' AS fecha_fin\r\n"
+			+ "FROM ven_orden_venta ov", nativeQuery=true)
+	List<Map<String, Object>> getDatosActaConformidad();
+	
 }

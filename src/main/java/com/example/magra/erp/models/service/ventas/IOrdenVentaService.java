@@ -11,4 +11,5 @@ public interface IOrdenVentaService {
 	Integer getCodigo();
 	OrdenVenta getById(Integer id);
 	Integer getOrdenTrabajoIdByOrdenVenta(Integer id);
+	List<OrdenVenta> autocompleteByCliente(Integer clienteId, String term);
 }

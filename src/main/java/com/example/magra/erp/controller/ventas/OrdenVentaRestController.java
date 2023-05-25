@@ -17,6 +17,8 @@ import javax.validation.Valid;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.magra.erp.VariablesGlobales;
+import com.example.magra.erp.models.entity.gestion.Empresa;
 import com.example.magra.erp.models.entity.maestro.Cliente;
 import com.example.magra.erp.models.entity.maestro.ClienteContacto;
 import com.example.magra.erp.models.entity.produccion.OrdenTrabajo;
@@ -40,6 +43,7 @@ import com.example.magra.erp.models.entity.ventas.OrdenVentaDetalle;
 import com.example.magra.erp.models.entity.ventas.Pago;
 import com.example.magra.erp.models.service.IUploadFileService;
 import com.example.magra.erp.models.service.auxiliares.IConfiguracionService;
+import com.example.magra.erp.models.service.gestion.IEmpresaService;
 import com.example.magra.erp.models.service.maestros.IClienteContactoService;
 import com.example.magra.erp.models.service.maestros.IClienteService;
 import com.example.magra.erp.models.service.produccion.IOrdenTrabajoService;
@@ -70,6 +74,35 @@ public class OrdenVentaRestController {
 	@Autowired
 	private IOrdenVentaDetalleService detalleVentaService;
 	
+	@Autowired
+	private IEmpresaService empresaService;
+
+	@GetMapping("/orden-venta/descargar-archivos/{ind}/{filename:.+}")
+	public ResponseEntity<Resource> descargarControlCalidad(@PathVariable String filename, @PathVariable Integer ind) {
+		
+		Resource recurso = null;
+		
+		try {
+			if(ind == 1) {
+				recurso = uploadService.cargar(filename, VariablesGlobales.PLANOS);
+			} else {
+				recurso = uploadService.cargar(filename, VariablesGlobales.ESPECIFICACIONES_TECNICAS);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		HttpHeaders cabecera = new HttpHeaders();
+		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
+		
+		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+	}
+	
+	@GetMapping("/orden-venta/autocomplete-c/{clienteId}/{term}")
+	public List<OrdenVenta> autocompleteByCliente(@PathVariable Integer clienteId, @PathVariable String term) {
+		return ordenVentaService.autocompleteByCliente(clienteId, term);
+	}
+	
 	@PutMapping("/orden-venta/upload-files")
 	public ResponseEntity<?> subirPlanosEspecificaciones(
 				@RequestParam(value="id", required=true) Integer ordenVentaDetalleId,
@@ -83,10 +116,10 @@ public class OrdenVentaRestController {
 		String strDate = dateFormat.format(date);  
 		
 		try {
-			uploadService.copiarConNombre(plano, VariablesGlobales.PLANOS, "plano_" + i + "_" + strDate.replaceAll(":", ""));
-			uploadService.copiarConNombre(esp, VariablesGlobales.ESPECIFICACIONES_TECNICAS, "especificaciones_" + i + "_" + strDate.replaceAll(":", ""));
+			String nombrePlano = uploadService.copiarConNombre(plano, VariablesGlobales.PLANOS, "plano_" + i + "_" + strDate.replaceAll(":", ""));
+			String nombreEsp = uploadService.copiarConNombre(esp, VariablesGlobales.ESPECIFICACIONES_TECNICAS, "especificaciones_" + i + "_" + strDate.replaceAll(":", ""));
 			
-			detalleVentaService.updateFilenames("plano_" + i + "_" + strDate.replaceAll(":", ""), "especificaciones_" + i + "_" + strDate.replaceAll(":", ""), ordenVentaDetalleId);
+			detalleVentaService.updateFilenames(nombrePlano, nombreEsp, ordenVentaDetalleId);
 		} catch (IOException e) {
 			e.printStackTrace();
 			response.put("mensaje", "Error al intentar subir archivos.");			
@@ -209,11 +242,48 @@ public class OrdenVentaRestController {
 	public ResponseEntity<?> updateVenta(@PathVariable Integer id, @RequestBody OrdenVenta venta){
 		Map<String, Object> response = new HashMap<>();
 		
+		OrdenVenta ventaNew = null;
+		
 		try {
 			venta.setEstado(confService.findById(2, "ESTVEN"));
-			ordenVentaService.save(venta);
+			ventaNew = ordenVentaService.save(venta);
 			
-			/**/
+			if(ventaNew.getTipoPago().getTablaAuxiliarDetalleId().getId() == 1) {
+				if(ordenVentaService.getOrdenTrabajoIdByOrdenVenta(ventaNew.getId()) == null) {
+					
+					OrdenTrabajo ot = new OrdenTrabajo();
+					
+					ot.setCodigo(LocalDate.now().getYear() + "-" + String.format("%05d", otService.getCatOT()+ 1 ));
+					ot.setIdUsuarioCrea(ventaNew.getIdUsuarioModifica());
+					ot.setOrdenVenta(ventaNew);
+					ot.setNombreTrabajo(ventaNew.getNombreTrabajo());
+					
+					List<OrdenTrabajoDetalle> otdList = new ArrayList<>();
+					
+					for(OrdenVentaDetalle ovd: ventaNew.getDetalle()) {
+						OrdenTrabajoDetalle otd = new OrdenTrabajoDetalle();
+						
+						otd.setCantidadPendiente(ovd.getCantidad());
+						otd.setCantidadProducida(0);
+						otd.setCantidadAceptada(0);
+						otd.setCantidadRechazada(0);
+						otd.setCantidadDespachada(0);
+						otd.setOrdenVentaDetalle(ovd);
+						
+						otdList.add(otd);
+						
+					}
+					
+					ot.setDetalle(otdList);
+					ot.setEstado(confService.findById(1, "ESTODT"));
+					
+					otService.save(ot);
+					ventaNew.setEstado(confService.findById(3, "ESTVEN"));
+					ventaNew = ordenVentaService.save(ventaNew);
+					
+				}
+				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.put("mensaje", "Error al intentar guardar los datos correspondientes.");			
@@ -239,16 +309,24 @@ public class OrdenVentaRestController {
 	}
 	
 	
-	@PostMapping("/orden-venta/create")
-	public ResponseEntity<?> create(@RequestBody OrdenVenta ordenVenta){
+	@PostMapping("/orden-venta/create/{empresaId}")
+	public ResponseEntity<?> create(@RequestBody OrdenVenta ordenVenta, @PathVariable Integer empresaId){
 		Map<String, Object> response = new HashMap<>();
 		
+		Empresa empresa = empresaService.getEmpresaById(empresaId);
+		
 		try {
+			//Guarda datos de cliente
 			Cliente cliente = clienteService.save(ordenVenta.getCliente());
 			ordenVenta.setCliente(cliente);
+			
+			//Guarda datos de contacto de cliente
 			ClienteContacto contacto = contactoService.findByCorreo(ordenVenta.getContacto().getCorreo());
 			ordenVenta.setContacto(contacto);
-			ordenVenta.setCodigo("C" + String.format("%06d", ordenVentaService.getCodigo()));
+			
+			//Guarda orden de venta
+			ordenVenta.setCodigo(LocalDate.now().getYear() + "-" + String.format("%05d", ordenVentaService.getCodigo()));
+			ordenVenta.setEmpresaPartida(empresa);
 			ordenVentaService.save(ordenVenta);
 		} catch (Exception e) {
 			e.printStackTrace();
