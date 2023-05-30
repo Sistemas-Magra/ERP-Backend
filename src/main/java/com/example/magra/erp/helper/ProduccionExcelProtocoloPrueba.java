@@ -25,7 +25,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-
+import com.example.magra.erp.VariablesGlobales;
 import com.example.magra.erp.models.entity.produccion.ProtocoloPruebaCalidad;
 import com.example.magra.erp.models.entity.produccion.ProtocoloPruebaCargaTrabajo;
 import com.example.magra.erp.models.entity.produccion.ProtocoloPruebaCargaTrabajoMuestra;
@@ -636,7 +636,7 @@ public class ProduccionExcelProtocoloPrueba {
 			
 		}
         
-		FileOutputStream outputStream = new FileOutputStream(new File(System.getProperty("user.home") + File.separator + "archivo.xlsx"));
+		FileOutputStream outputStream = new FileOutputStream(new File(VariablesGlobales.PROTOCOLOS_PRUEBA + "/" + protocolos.get(0).getOrdenVenta().getCodigo() + "-" + protocolos.get(0).getOrdenVenta().getCliente().getRazonSocial() + ".xlsx"));
 		workbook.write(outputStream);
         workbook.close();
         

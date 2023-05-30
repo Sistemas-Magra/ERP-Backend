@@ -1,6 +1,5 @@
 package com.example.magra.erp.controller.produccion;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,17 +26,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.magra.erp.VariablesGlobales;
 import com.example.magra.erp.helper.ZipUtil;
+import com.example.magra.erp.models.entity.produccion.OrdenTrabajo;
 import com.example.magra.erp.models.entity.produccion.Produccion;
 import com.example.magra.erp.models.entity.produccion.ProduccionPlanta;
+import com.example.magra.erp.models.entity.ventas.OrdenVenta;
 import com.example.magra.erp.models.service.IUploadFileService;
 import com.example.magra.erp.models.service.auxiliares.IConfiguracionService;
+import com.example.magra.erp.models.service.produccion.IOrdenTrabajoService;
 import com.example.magra.erp.models.service.produccion.IProduccionPlantaService;
 import com.example.magra.erp.models.service.produccion.IProduccionService;
+import com.example.magra.erp.models.service.ventas.IOrdenVentaService;
 
 @RestController
 @RequestMapping("/api")
 public class ProduccionRestController {
+	@Autowired
+	private IOrdenVentaService ovService;
+	
+	@Autowired
+	private IOrdenTrabajoService otService;
+	
 	@Autowired
 	private IProduccionService produccionService;
 	
@@ -51,13 +61,21 @@ public class ProduccionRestController {
 	private IUploadFileService uploadService;
 	
 	@GetMapping("/produccion/descargar-protocolos/{ordenVentaId}")
-	public ResponseEntity<Resource> descargarControlCalidad(@PathVariable Integer ordenVentaId) {
+	public ResponseEntity<Resource> descargarProtocolo(@PathVariable Integer ordenVentaId) {
 		
 		Resource recurso = null;
 		
+		OrdenVenta ov = ovService.getById(ordenVentaId);
+		
+		Integer cantProtocolos = ovService.getCantidadProtocolos(ordenVentaId);
+		
+		if(cantProtocolos == 0) {
+			return new ResponseEntity<Resource>(recurso, HttpStatus.CONFLICT);
+		}
+		
 		try {
 			produccionService.generarProtocolo(ordenVentaId);
-			recurso = uploadService.cargar("archivo.xlsx", System.getProperty("user.home"));
+			recurso = uploadService.cargar(ov.getCodigo() + "-" + ov.getCliente().getRazonSocial() + ".xlsx", VariablesGlobales.PROTOCOLOS_PRUEBA);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InvalidFormatException e) {
@@ -66,7 +84,7 @@ public class ProduccionRestController {
 		}
 		
 		HttpHeaders cabecera = new HttpHeaders();
-		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
+		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+ recurso.getFilename() +"\"");
 		
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
 	}
@@ -78,11 +96,12 @@ public class ProduccionRestController {
     			@RequestParam(value="fecha", required=true) String fecha,
     			@RequestBody List<Map<String, Object>> detalle
     		) {
-		System.out.println(fecha);
 		Resource recurso = null;
+		OrdenTrabajo ot = otService.getById(ordenTrabajoId);
+		OrdenVenta ov = ot.getOrdenVenta();
 		try {
 			produccionService.generarCartaCalidad(ordenTrabajoId, sedeId, fecha, detalle);
-			recurso = uploadService.cargar("archivo3.docx", System.getProperty("user.home"));
+			recurso = uploadService.cargar(ov.getCodigo() + "-" + ov.getCliente().getRazonSocial() + ".docx", VariablesGlobales.CARTAS_CALIDAD);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InvalidFormatException e) {
@@ -90,7 +109,7 @@ public class ProduccionRestController {
 		}
 		
 		HttpHeaders cabecera = new HttpHeaders();
-		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
+		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+ recurso.getFilename() +"\"");
 		
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
     }
@@ -98,18 +117,22 @@ public class ProduccionRestController {
 	@GetMapping("/produccion/descargar-carta-garantia/{ordenTrabajoId}/{sedeId}")
     public ResponseEntity<Resource> descargarCartaGarantia(@PathVariable Integer ordenTrabajoId, @PathVariable Integer sedeId) {
 		Resource recurso = null;
+		
+		OrdenTrabajo ot = otService.getById(ordenTrabajoId);
+		OrdenVenta ov = ot.getOrdenVenta();
+		
 		try {
 			produccionService.generarCartaGarantia(ordenTrabajoId, sedeId, 1);
 			produccionService.generarCartaGarantia(ordenTrabajoId, sedeId, 2);
 			
-			String zipFilePath = System.getProperty("user.home") + File.separator + "comprimido.zip";
-			String file1Path = System.getProperty("user.home") + File.separator + "archivo1.docx";
-			String file2Path = System.getProperty("user.home") + File.separator + "archivo2.docx";
+			String zipFilePath = VariablesGlobales.CARTAS_GARANTIA + "/" + ov.getCodigo() + "-" + ov.getCliente().getRazonSocial() + ".zip";
+			String file1Path = VariablesGlobales.CARTAS_GARANTIA + "/" + ov.getCodigo() + "-" + ov.getCliente().getRazonSocial() + "-tp1.docx";
+			String file2Path = VariablesGlobales.CARTAS_GARANTIA + "/" + ov.getCodigo() + "-" + ov.getCliente().getRazonSocial() + "-tp2.docx";
 
 			ZipUtil zipUtil = new ZipUtil();
 			zipUtil.zipFiles(zipFilePath, file1Path, file2Path);
 			
-			recurso = uploadService.cargar("comprimido.zip", System.getProperty("user.home"));
+			recurso = uploadService.cargar(ov.getCodigo() + "-" + ov.getCliente().getRazonSocial() + ".zip", VariablesGlobales.CARTAS_GARANTIA);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InvalidFormatException e) {
@@ -117,7 +140,7 @@ public class ProduccionRestController {
 		}
 		
 		HttpHeaders cabecera = new HttpHeaders();
-		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
+		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+ recurso.getFilename() +"\"");
 		
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
     }
@@ -131,15 +154,18 @@ public class ProduccionRestController {
 			@RequestBody List<Map<String, Object>> detalle
 		) {
 		Resource recurso = null;
+		
+		OrdenTrabajo ot = otService.getById(ordenTrabajoId);
+		OrdenVenta ov = ot.getOrdenVenta();
 		try {
 			produccionService.generarActaConformidad(ordenTrabajoId, sedeId, fechaInicio, fechaFin, detalle);
-			recurso = uploadService.cargar("archivo.docx", System.getProperty("user.home"));
+			recurso = uploadService.cargar(ov.getCodigo() + "-" + ov.getCliente().getRazonSocial() + ".docx", VariablesGlobales.ACTA_CONFORMIDAD);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		HttpHeaders cabecera = new HttpHeaders();
-		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
+		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+ recurso.getFilename() +"\"");
 		
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
     }

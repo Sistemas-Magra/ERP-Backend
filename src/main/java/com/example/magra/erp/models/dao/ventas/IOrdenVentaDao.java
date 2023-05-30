@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.magra.erp.models.entity.ventas.OrdenVenta;
 
 public interface IOrdenVentaDao extends JpaRepository<OrdenVenta, Integer> {
+	@Query(value="SELECT COUNT(id) FROM prod_protocolo_prueba WHERE orden_venta_id = ?1", nativeQuery=true)
+	Integer getCantidadProtocolos(Integer id);
+	
 	@Query("SELECT ot FROM OrdenVenta ot WHERE ot.cliente.id = ?1 AND UPPER(ot.codigo) LIKE UPPER('%' + ?2 + '%')")
 	List<OrdenVenta> autocompleteByCliente(Integer clienteId, String term);
 	

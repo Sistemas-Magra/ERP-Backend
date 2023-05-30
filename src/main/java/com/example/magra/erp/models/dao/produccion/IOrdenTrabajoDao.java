@@ -9,6 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.magra.erp.models.entity.produccion.OrdenTrabajo;
 
 public interface IOrdenTrabajoDao extends JpaRepository<OrdenTrabajo, Integer>{
+	
+	@Query("SELECT ot FROM OrdenTrabajo ot WHERE ot.id = ?1")
+	OrdenTrabajo getById(Integer id);
+	
 	@Query("SELECT COUNT(ot) FROM OrdenTrabajo ot")
 	Integer getCatOT();
 	

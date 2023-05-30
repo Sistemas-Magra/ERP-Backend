@@ -24,6 +24,8 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcBorders;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 
+import com.example.magra.erp.VariablesGlobales;
+
 public class ProduccionWordControlCalidad {
 
 	public static FileOutputStream generarControlCalidad(Map<String, Object> datos, List<Map<String, Object>> productos) throws IOException, InvalidFormatException {
@@ -223,7 +225,7 @@ public class ProduccionWordControlCalidad {
         p7Run.setText("Atentamente,");
 		
 		//Guardado del archivo
-		FileOutputStream outputStream = new FileOutputStream(new File(System.getProperty("user.home") + File.separator + "archivo3.docx"));
+		FileOutputStream outputStream = new FileOutputStream(new File(VariablesGlobales.CARTAS_CALIDAD + "/" + datos.get("codigo").toString() + "-" + datos.get("cliente").toString() + ".docx"));
         document.write(outputStream);
         outputStream.close();
         document.close();

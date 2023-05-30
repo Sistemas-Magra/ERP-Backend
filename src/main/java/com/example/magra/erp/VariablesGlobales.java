@@ -24,6 +24,13 @@ public class VariablesGlobales {
 	public final static String PLANOS = PRODUCCION + "/planos";
 	public final static String ESPECIFICACIONES_TECNICAS = PRODUCCION + "/especificaciones_tecnicas";
 	
+	public final static String CALIDAD = DIRECTORIO_ARCHIVOS + "/calidad";
+
+	public final static String CARTAS_CALIDAD = CALIDAD + "/carta_calidad";
+	public final static String CARTAS_GARANTIA = CALIDAD + "/carta_garantia";
+	public final static String PROTOCOLOS_PRUEBA = CALIDAD + "/protocolo_prueba";
+	public final static String ACTA_CONFORMIDAD = CALIDAD + "/acta_conformidad";
+	
 	public final static String API_SUNAT = "https://api.apis.net.pe/v2/";
 
 }

@@ -43,5 +43,10 @@ public class OrdenTrabajoServiceImpl implements IOrdenTrabajoService{
 	public List<Map<String, Object>> getProductosFromOrdenTrabajo(Integer id) {
 		return otDao.getProductosFromOrdenTrabajo(id);
 	}
+
+	@Override
+	public OrdenTrabajo getById(Integer id) {
+		return otDao.getById(id);
+	}
 	
 }

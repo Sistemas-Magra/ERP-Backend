@@ -21,6 +21,8 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcBorders;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 
+import com.example.magra.erp.VariablesGlobales;
+
 public class ProduccionWordActaConformidad {
 	
 	public static FileOutputStream generarActaConformidad(Map<String, Object> datos, List<Map<String, Object>> productos) throws IOException {
@@ -278,7 +280,7 @@ public class ProduccionWordActaConformidad {
             }
         }
         
-		FileOutputStream outputStream = new FileOutputStream(new File(System.getProperty("user.home") + File.separator + "archivo.docx"));
+		FileOutputStream outputStream = new FileOutputStream(new File(VariablesGlobales.ACTA_CONFORMIDAD + "/" + datos.get("orden_venta").toString() + "-" + datos.get("cliente").toString() + ".docx"));
         document.write(outputStream);
         outputStream.close();
         document.close();

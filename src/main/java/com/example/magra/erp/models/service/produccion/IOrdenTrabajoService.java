@@ -6,6 +6,7 @@ import java.util.Map;
 import com.example.magra.erp.models.entity.produccion.OrdenTrabajo;
 
 public interface IOrdenTrabajoService {
+	OrdenTrabajo getById(Integer id);
 	OrdenTrabajo save(OrdenTrabajo ot);
 	Integer getCatOT();
 	List<OrdenTrabajo> autocomplete(String term);

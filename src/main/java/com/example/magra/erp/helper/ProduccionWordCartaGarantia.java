@@ -24,6 +24,8 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcBorders;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 
+import com.example.magra.erp.VariablesGlobales;
+
 public class ProduccionWordCartaGarantia {
 	
 	public static FileOutputStream generarCartaGarantia(Map<String, Object> datos, List<Map<String, Object>> productos, Integer tipoProducto) throws IOException, InvalidFormatException {
@@ -223,7 +225,7 @@ public class ProduccionWordCartaGarantia {
         p4Run.setText("Atentamente,");
 		
 		//Guardado del archivo
-		FileOutputStream outputStream = new FileOutputStream(new File(System.getProperty("user.home") + File.separator + "archivo" + tipoProducto + ".docx"));
+		FileOutputStream outputStream = new FileOutputStream(new File(VariablesGlobales.CARTAS_GARANTIA + "/" + datos.get("ord_venta").toString() + "-" + datos.get("cliente").toString() + "-tp" + tipoProducto + ".docx"));
         document.write(outputStream);
         outputStream.close();
         document.close();
