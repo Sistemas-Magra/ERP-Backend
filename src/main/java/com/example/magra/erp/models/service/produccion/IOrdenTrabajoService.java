@@ -10,6 +10,7 @@ public interface IOrdenTrabajoService {
 	OrdenTrabajo save(OrdenTrabajo ot);
 	Integer getCatOT();
 	List<OrdenTrabajo> autocomplete(String term);
+	List<OrdenTrabajo> autocompletePedido(String term);
 	List<Map<String, Object>> getListadoOrdenesTrabajo();
 	List<Map<String, Object>> getDetalleOrdenTrabajo(Integer ordenTrabajoId);	
 	List<Map<String, Object>> getProductosFromOrdenTrabajo(Integer id);

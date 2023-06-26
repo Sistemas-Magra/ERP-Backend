@@ -32,6 +32,9 @@ public class VehiculoEmpTrans implements Serializable {
 	@Column(length=10)
 	private String placaTrasera;
 	
+	@Column(length=25)
+	private String stringBusqueda;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private TablaAuxiliarDetalle tipoVehiculo;
@@ -68,6 +71,14 @@ public class VehiculoEmpTrans implements Serializable {
 
 	public void setPlacaTrasera(String placaTrasera) {
 		this.placaTrasera = placaTrasera;
+	}
+
+	public String getStringBusqueda() {
+		return stringBusqueda;
+	}
+
+	public void setStringBusqueda(String stringBusqueda) {
+		this.stringBusqueda = stringBusqueda;
 	}
 
 	public TablaAuxiliarDetalle getTipoVehiculo() {

@@ -39,7 +39,7 @@ public class ProduccionWordControlCalidad {
 		XWPFParagraph pEncabezado = encabezado.createParagraph();
 		XWPFRun pRun = pEncabezado.createRun();
 		
-		String imagePath = "C:/Proyecto/imgs/logo_carta_garantia.png";
+		String imagePath = "D:/Proyecto/imgs/logo_carta_garantia.png";
 		int format = XWPFDocument.PICTURE_TYPE_JPEG;
 		int width = Units.toEMU(300);
 		int height = Units.toEMU(50);

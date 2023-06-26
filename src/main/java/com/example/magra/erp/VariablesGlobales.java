@@ -15,7 +15,9 @@ public class VariablesGlobales {
 
 	public final static String IMAGEN_DEFAULT = "not-user.png";
 	
-	public final static String DIRECTORIO_ARCHIVOS = "C:/Proyecto";
+	public final static String DIRECTORIO_ARCHIVOS = "D:/Proyecto";
+	
+	public final static String IMAGENES = DIRECTORIO_ARCHIVOS + "/imgs";
 	
 	public final static String EMPLEADO_FOTOS = DIRECTORIO_ARCHIVOS + "/empleados/fotos";
 	
@@ -30,6 +32,10 @@ public class VariablesGlobales {
 	public final static String CARTAS_GARANTIA = CALIDAD + "/carta_garantia";
 	public final static String PROTOCOLOS_PRUEBA = CALIDAD + "/protocolo_prueba";
 	public final static String ACTA_CONFORMIDAD = CALIDAD + "/acta_conformidad";
+	
+	public final static String DESPACHO = DIRECTORIO_ARCHIVOS + "/despacho";
+	
+	public final static String GUIAS_REMISION = DESPACHO + "/guias_remision";
 	
 	public final static String API_SUNAT = "https://api.apis.net.pe/v2/";
 

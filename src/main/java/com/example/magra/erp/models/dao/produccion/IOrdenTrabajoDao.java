@@ -18,7 +18,13 @@ public interface IOrdenTrabajoDao extends JpaRepository<OrdenTrabajo, Integer>{
 	
 	@Query("SELECT ot "
 			+ " FROM OrdenTrabajo ot "
-			+ " WHERE (UPPER(ot.codigo) LIKE UPPER(CONCAT('%', ?1 , '%')) OR UPPER(ot.ordenVenta.codigo) LIKE UPPER(CONCAT('%', ?1 , '%'))) "
+			+ " WHERE (UPPER(ot.ordenVenta.codigo) LIKE UPPER(CONCAT('%', ?1 , '%'))) "
+			+ " AND ot.estado.tablaAuxiliarDetalleId.id IN (1, 2)")
+	List<OrdenTrabajo> autocompletePedido(String term);
+	
+	@Query("SELECT ot "
+			+ " FROM OrdenTrabajo ot "
+			+ " WHERE (UPPER(ot.codigo) LIKE UPPER(CONCAT('%', ?1 , '%'))) "
 			+ " AND ot.estado.tablaAuxiliarDetalleId.id IN (1, 2)")
 	List<OrdenTrabajo> autocomplete(String term);
 	

@@ -48,5 +48,10 @@ public class OrdenTrabajoServiceImpl implements IOrdenTrabajoService{
 	public OrdenTrabajo getById(Integer id) {
 		return otDao.getById(id);
 	}
+
+	@Override
+	public List<OrdenTrabajo> autocompletePedido(String term) {
+		return otDao.autocompletePedido(term);
+	}
 	
 }

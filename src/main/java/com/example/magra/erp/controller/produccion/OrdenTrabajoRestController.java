@@ -18,6 +18,11 @@ public class OrdenTrabajoRestController {
 	@Autowired
 	private IOrdenTrabajoService otService;
 	
+	@GetMapping("/orden-trabajo/autocomplete-pedido/{term}")
+	public List<OrdenTrabajo> autocompletePedido(@PathVariable String term) {
+		return otService.autocompletePedido(term);
+	}
+	
 	@GetMapping("/orden-trabajo/autocomplete/{term}")
 	public List<OrdenTrabajo> autocomplete(@PathVariable String term) {
 		return otService.autocomplete(term);

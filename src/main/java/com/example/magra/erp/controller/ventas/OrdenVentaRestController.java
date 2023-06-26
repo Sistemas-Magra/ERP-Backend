@@ -98,6 +98,11 @@ public class OrdenVentaRestController {
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
 	}
 	
+	@GetMapping("/orden-venta/autocomplete/{term}")
+	public List<OrdenVenta> autocomplete(@PathVariable String term) {
+		return ordenVentaService.autocomplete(term);
+	}
+	
 	@GetMapping("/orden-venta/autocomplete-c/{clienteId}/{term}")
 	public List<OrdenVenta> autocompleteByCliente(@PathVariable Integer clienteId, @PathVariable String term) {
 		return ordenVentaService.autocompleteByCliente(clienteId, term);

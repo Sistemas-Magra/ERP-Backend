@@ -125,7 +125,7 @@ public class ProduccionExcelProtocoloPrueba {
 			
 	        int pictureType = Workbook.PICTURE_TYPE_PNG;
 	        
-	        FileInputStream fis = new FileInputStream("C:/Proyecto/imgs/logo_carta_garantia.png");
+	        FileInputStream fis = new FileInputStream("D:/Proyecto/imgs/logo_carta_garantia.png");
 	        byte[] imageBytes =  IOUtils.toByteArray(fis);
 	        
 	        int pictureIdx = workbook.addPicture(imageBytes, pictureType);

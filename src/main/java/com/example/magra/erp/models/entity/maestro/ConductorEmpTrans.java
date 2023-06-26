@@ -34,6 +34,9 @@ public class ConductorEmpTrans implements Serializable {
 
 	@Column(length=100)
 	private String apellidoMaterno;
+
+	@Column(length=600)
+	private String stringBusqueda;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -54,7 +57,7 @@ public class ConductorEmpTrans implements Serializable {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaModifica;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -85,6 +88,14 @@ public class ConductorEmpTrans implements Serializable {
 
 	public void setApellidoMaterno(String apellidoMaterno) {
 		this.apellidoMaterno = apellidoMaterno;
+	}
+
+	public String getStringBusqueda() {
+		return stringBusqueda;
+	}
+
+	public void setStringBusqueda(String stringBusqueda) {
+		this.stringBusqueda = stringBusqueda;
 	}
 
 	public TablaAuxiliarDetalle getTipoDocumentoIdentidad() {

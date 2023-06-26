@@ -48,6 +48,9 @@ public class ProductoVenta  implements Serializable {
 
 	@Column(precision =10, scale=2)
 	private BigDecimal base;
+
+	@Column(precision =10, scale=2)
+	private BigDecimal peso;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
@@ -192,6 +195,14 @@ public class ProductoVenta  implements Serializable {
 
 	public void setBase(BigDecimal base) {
 		this.base = base;
+	}
+
+	public BigDecimal getPeso() {
+		return peso;
+	}
+
+	public void setPeso(BigDecimal peso) {
+		this.peso = peso;
 	}
 
 	@PrePersist

@@ -51,4 +51,9 @@ public class OrdenVentaServiceImpl implements IOrdenVentaService {
 		return ordenVentaDao.getCantidadProtocolos(id);
 	}
 
+	@Override
+	public List<OrdenVenta> autocomplete(String term) {
+		return ordenVentaDao.autocomplete(term);
+	}
+
 }
