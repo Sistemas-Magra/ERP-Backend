@@ -24,4 +24,9 @@ public class DespachoServiceImpl implements IDespachoService {
 		return despachoDao.save(despacho);
 	}
 
+	@Override
+	public Despacho getById(Integer id) {
+		return despachoDao.getById(id);
+	}
+
 }

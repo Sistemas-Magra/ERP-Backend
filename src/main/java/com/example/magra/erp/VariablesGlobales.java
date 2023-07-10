@@ -7,9 +7,9 @@ public class VariablesGlobales {
 	public static final int ANGULAR_ACCESS_TOKEN_VALIDITY_SECONDS = 6 * 60 * 60;
 	public static final int ANGULAR_REFRESH_TOKEN_VALIDITY_SECONDS = 6 * 60 * 60;
 	
-	public static final String ORIGENES_PERMITIDOS = "http://localhost:4200";
+	public static final String ORIGENES_PERMITIDOS = "http://192.168.0.106";
 	
-	public static final String RUTA_FRONTEND = "http://localhost:4200";
+	public static final String RUTA_FRONTEND = "http://192.168.0.106";
 	
 	public static final int MINUTES_EXPIRE_PASSWORD_RESET_TOKEN = 999999999;
 
@@ -36,6 +36,7 @@ public class VariablesGlobales {
 	public final static String DESPACHO = DIRECTORIO_ARCHIVOS + "/despacho";
 	
 	public final static String GUIAS_REMISION = DESPACHO + "/guias_remision";
+	public final static String GUIAS_PROVICIONAL = DESPACHO + "/guias_provicional";
 	
 	public final static String API_SUNAT = "https://api.apis.net.pe/v2/";
 

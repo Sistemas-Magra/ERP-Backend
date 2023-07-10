@@ -32,6 +32,9 @@ public class Formulario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(length=20)
+	private String nroRemision;
 
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
@@ -92,6 +95,10 @@ public class Formulario implements Serializable {
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
 	private TablaAuxiliarDetalle estado;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, allowSetters = true)
+	private TablaAuxiliarDetalle motivoTraslado;
+	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "formulario_id")
@@ -103,6 +110,14 @@ public class Formulario implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getNroRemision() {
+		return nroRemision;
+	}
+
+	public void setNroRemision(String nroRemision) {
+		this.nroRemision = nroRemision;
 	}
 
 	public Date getFecha() {
@@ -287,6 +302,14 @@ public class Formulario implements Serializable {
 
 	public void setOrdenTrabajo(OrdenTrabajo ordenTrabajo) {
 		this.ordenTrabajo = ordenTrabajo;
+	}
+
+	public TablaAuxiliarDetalle getMotivoTraslado() {
+		return motivoTraslado;
+	}
+
+	public void setMotivoTraslado(TablaAuxiliarDetalle motivoTraslado) {
+		this.motivoTraslado = motivoTraslado;
 	}
 
 	public List<FormularioDetalle> getDetalle() {

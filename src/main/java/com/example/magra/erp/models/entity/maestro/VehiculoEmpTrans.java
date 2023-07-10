@@ -32,6 +32,9 @@ public class VehiculoEmpTrans implements Serializable {
 	@Column(length=10)
 	private String placaTrasera;
 	
+	@Column(length=50)
+	private String marca;
+	
 	@Column(length=25)
 	private String stringBusqueda;
 	
@@ -55,6 +58,14 @@ public class VehiculoEmpTrans implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
 	}
 
 	public String getPlacaDelantera() {

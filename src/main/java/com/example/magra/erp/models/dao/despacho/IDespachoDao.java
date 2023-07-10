@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.magra.erp.models.entity.despacho.Despacho;
 
 public interface IDespachoDao extends JpaRepository<Despacho, Integer> {
+	@Query("SELECT d FROM Despacho d WHERE d.id = ?1")
+	Despacho getById(Integer id);
+	
 	@Query("SELECT d FROM Despacho d WHERE d.fecha = ?1")
 	Despacho getDespachoByFecha(Date fecha);
 }
